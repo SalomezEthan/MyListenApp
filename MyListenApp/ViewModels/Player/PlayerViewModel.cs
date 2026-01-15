@@ -1,9 +1,9 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Documents;
 using MyArchitecture.PresenterLayer;
-using MyListen.Player.Listeners;
-using MyListen.Player.UseCases;
+using MyListen.Player;
 using MyListenApp.ViewModels.Song;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -59,64 +59,42 @@ namespace MyListenApp.ViewModels.Player
         }
 
 
-        readonly ChangePlaybackState changePlaybackState;
-        readonly NextSongTrigger next;
-        readonly PreviousSongTrigger previous;
-        readonly ChangeVolume changeVolume;
+        readonly PlayerService playerService;
 
-        public PlayerViewModel
-        (
-            ChangePlaybackState changePlaybackState,
-            NextSongTrigger next, 
-            PreviousSongTrigger previous, 
-            ChangeVolume changeVolume, 
-            SongChangedListener songChangedListener, 
-            QueueChangedListener queueChangedListener,
-            PlaybackStateChangedListener stateChangedListener,
-            SongEndedListener songEndedListener,
-            SongViewModelMap songViewModelMap
-        )
+        public PlayerViewModel(PlayerService playerService, SongViewModelMap songViewModelMap)
         {
-            this.changePlaybackState = changePlaybackState;
-            this.next = next;
-            this.previous = previous;
-            this.changeVolume = changeVolume;
-
-            queueChangedListener.Notified += (s, newQueue) =>
+            this.playerService = playerService;
+            this.playerService.SongChanged += (s, e) =>
             {
-                Queue = [.. newQueue.Select(infos => songViewModelMap.GetSafeWithSongInfos(infos))];
+                CurrentSong = songViewModelMap.GetSafeWithSongInfos(e);
             };
 
-            songChangedListener.Notified += (s, newSong) =>
+            this.playerService.PlaybackQueueChanged += (s, e) =>
             {
-                CurrentSong = songViewModelMap.GetSafeWithSongInfos(newSong);
+                var songViewModels = e.Select(songViewModelMap.GetSafeWithSongInfos);
+                Queue = new ObservableCollection<SongViewModel>(songViewModels);
             };
 
-            stateChangedListener.Notified += (s, newPlayState) =>
+            this.playerService.PlaybackStateChanged += (s, e) =>
             {
-                IsPlaying = newPlayState.IsPlaying;
-                App.BackgroundService.SetPlayState(newPlayState.IsPlaying);
+                IsPlaying = e;
             };
 
-            songEndedListener.Notified += (s, e) =>
+            this.playerService.ShuffleStateChanged += (s, e) =>
             {
-                Next();
+                IsShuffled = e;
             };
         }
 
-        public void TogglePlayPause()
-        {
-            var request = new ChangePlaybackStateRequest(IsPlaying);
-            changePlaybackState.Execute(request);
-        }
+        public void TogglePlayPause() => playerService.SwitchPlaybackState(IsPlaying);
+        public void PlayNextSong() => playerService.PlayNextSong();
+        public void PlayPreviousSong() => playerService.PlayPreviousSong();
+        public void ChangeVolume(float volume) => playerService.ChangeVolume(volume);
 
-        public void Next() => next.Execute();
-        public void Previous() => previous.Execute();
-
-        public void ChangeVolume(float volume)
+        public void ToggleShuffleOrder(Guid startMusicId)
         {
-            var request = new ChangeVolumeRequest(volume);
-            changeVolume.Execute(request);
+            if (IsShuffled) playerService.OrderPlaybackQueue(startMusicId);
+            else playerService.ShufflePlaybackQueue(startMusicId);
         }
     }
 

@@ -46,9 +46,20 @@ public sealed class PlaybackQueue
         OnPlaybackQueueChanged([.. playbackQueue]);
     }
 
-    public Result<Guid> MoveTo(Guid id)
+    /// <summary>
+    /// Déplace la lecture jusqu'à la musique spécifiée dans la file de lecture.
+    /// Avance dans la file jusqu'à atteindre l'identifiant donné.
+    /// </summary>
+    /// <param name="id">
+    /// L'identifiant de la musique ciblée dans la <see cref="PlaybackQueue"/>.
+    /// </param>
+    /// <returns>
+    /// Un résultat positif si la musique a été trouvée et définie comme musique actuel,
+    /// ou un résultat négatif si l'identifiant est absent de la file.
+    /// </returns>
+    public Result MoveTo(Guid id)
     {
-        if (!playbackQueue.Contains(id)) return Result<Guid>.Fail("L'identifiant est introuvable dans la songList.");
+        if (!playbackQueue.Contains(id)) return Result.Fail("L'identifiant est introuvable dans la songList.");
 
         while (playbackQueue.Peek() != id)
         {
@@ -56,7 +67,7 @@ public sealed class PlaybackQueue
         } 
         
         CurrentSongId = playbackQueue.Dequeue();
-        return Result<Guid>.Ok(CurrentSongId);
+        return Result.Ok();
     }
 
     public Result SetShuffledPlaybackQueue(EnqueueList songCollection, Guid StartedSong)
@@ -67,7 +78,11 @@ public sealed class PlaybackQueue
         return ShufflePlayBackQueue(StartedSong);
     }
 
-
+    /// <summary>
+    /// Mélange la file de lecture en plaçant éventuellement un son spécifique au début.
+    /// </summary>
+    /// <param name="startedSong">L'éventuel son mis au début.</param>
+    /// <returns>Un résultat positif si le mélange réussit. A l'inverse, un résultat négatif si le collection orignale est vide.</returns>
     public Result ShufflePlayBackQueue(Guid? startedSong = null)
     {
         if (songCollection is null) return Result.Fail("La collection est vide.");
@@ -93,6 +108,10 @@ public sealed class PlaybackQueue
         return Result.Ok();
     }
 
+    /// <summary>
+    /// Range la file de lecture dans l'ordre initial.
+    /// </summary>
+    /// <returns>Un résultat positif si l'action réussit. A l'inverse, si la collection original est vide, un résultat négatif.</returns>
     public Result OrderPlaybackQueue()
     {
         if (songCollection is null) return Result.Fail("La collection est vide.");

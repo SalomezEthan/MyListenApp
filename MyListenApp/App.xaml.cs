@@ -57,7 +57,7 @@ namespace MyListenApp
             var song = new SongComposantFactory(externServices.SongRepo);
             var songList = new SongListComposantFactory(externServices.SongListRepo, externServices.SongRepo, playbackQueue, externServices.Player);
             var library = new LibraryComposantFactory(externServices.SongListRepo, externServices.SongRepo, externServices.SongListImporter, externServices.SongImporter);
-            var player = new MyListen.Player.PlayerComposantFactory(playbackQueue, externServices.Player, externServices.SongRepo);
+            var player = new MyListen.Player.PlayerServiceFactory(playbackQueue, externServices.Player, externServices.SongRepo);
 
             var songVMFactory = new SongViewModelFactory(song);
             var songVMMap = new SongViewModelMap(songVMFactory);

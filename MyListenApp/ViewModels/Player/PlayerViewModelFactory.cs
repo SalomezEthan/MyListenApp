@@ -3,22 +3,15 @@ using MyListenApp.ViewModels.Song;
 
 namespace MyListenApp.ViewModels.Player
 {
-    internal sealed class PlayerViewModelFactory (PlayerComposantFactory composantFactory, SongViewModelMap songViewModelMap)
+    internal sealed class PlayerViewModelFactory (PlayerServiceFactory composantFactory, SongViewModelMap songViewModelMap)
     {
-        readonly PlayerComposantFactory factory = composantFactory;
+        readonly PlayerServiceFactory factory = composantFactory;
         readonly SongViewModelMap songViewModelMap = songViewModelMap;
 
         public PlayerViewModel CreatePlayerViewModel()
         {
             return new PlayerViewModel(
-                factory.CreateChangePlaybackState(),
-                factory.CreateNextSongTrigger(),
-                factory.CreatePreviousSongTrigger(),
-                factory.CreateChangeVolume(),
-                factory.CreateSongChangedListener(),
-                factory.CreateQueueChangedListener(),
-                factory.CreateStateChangedListener(),
-                factory.CreateSongEndedListener(),
+                factory.CreatePlayerService(),
                 songViewModelMap
             );
         }

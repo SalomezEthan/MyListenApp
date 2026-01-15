@@ -32,6 +32,12 @@
                 <Setter Property="FontSize" Value="16"/>
                 <Setter Property="Foreground" Value="{StaticResource MainFontColor}"/>
             </Style>
+
+            <Style TargetType="ToggleButton">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="CornerRadius" Value="4"/>
+            </Style>
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
@@ -58,15 +64,17 @@
                 <FontIcon Glyph="&#xF8AD;" />
             </Button>
 
-            <Button x:Name="ShuffleButton"
-                    Click="ShuffleButton_Click">
+            <ToggleButton x:Name="ShuffleButton"
+                          IsChecked="{Binding IsShuffled}" 
+                          Click="ShuffleButton_Click">
                 <FontIcon Glyph="&#xE8B1;" />
-            </Button>
+            </ToggleButton>
 
-            <Button x:Name="LoopButton"
-                    Click="LoopButton_Click">
+            <ToggleButton x:Name="LoopButton"
+                          IsChecked="{Binding IsLooped}"
+                          Click="LoopButton_Click">
                 <FontIcon Glyph="&#xE8EE;" />
-            </Button>
+            </ToggleButton>
         </StackPanel>
 
         <StackPanel HorizontalAlignment="Center"
