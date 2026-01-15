@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MyListenApp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MyListenApp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

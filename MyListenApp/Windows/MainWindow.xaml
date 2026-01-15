@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="MyListenApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyListenApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="using:MyListenApp.UserControls"
+    mc:Ignorable="d"
+    Title="MyListenApp">
+
+    <Window.SystemBackdrop>
+        <DesktopAcrylicBackdrop />
+    </Window.SystemBackdrop>
+
+    <Grid>
+        <MediaPlayerElement x:Name="AnimatedBackground"
+                            Source="C:\Users\aisuh\Videos\Wallpaper\rei-at-the-shoreline-neon-genesis-evangelion-moewalls-com.mp4"
+                            Stretch="UniformToFill"
+                            Grid.RowSpan="2"/>
+
+        <Grid Background="{ThemeResource MainAcrylicBrush}">
+            <NavigationView x:Name="NavView"
+                            PaneDisplayMode="LeftMinimal"
+                            IsBackEnabled="True"
+                            BackRequested="NavView_BackRequested"
+                            Grid.Row="1">
+                <NavigationView.Resources>
+
+                    <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground" Opacity="0.9" TintOpacity="0.3" TintColor="#20805022" TintLuminosityOpacity="0.1" FallbackColor="Black"/>
+                </NavigationView.Resources>
+                <NavigationView.AutoSuggestBox>
+                    <AutoSuggestBox QueryIcon="Zoom"
+                                    PlaceholderText="Rechercher une musique..."/>
+                </NavigationView.AutoSuggestBox>
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Icon="Library" 
+                                        Content="Bibliothèque"
+                                        Tag="LibraryPage"/>
+                    <NavigationViewItem Icon="OutlineStar"
+                                        Content="Favoris"
+                                        Tag="FavoritePage"/>
+                    <NavigationViewItem Icon="ViewAll"
+                                        Content="Tous les sons"
+                                        Tag="AllSongPage"/>
+                </NavigationView.MenuItems>
+                <NavigationView.FooterMenuItems>
+                    <NavigationViewItem Icon="Download"
+                                        Content="Téléchargement"
+                                        Tag="DownloadPage"/>
+                </NavigationView.FooterMenuItems>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+
+                    <Frame x:Name="PageContent" Padding="60 60 60 0"/>
+                    <uc:MusicPlayer ViewModel="{x:Bind playerViewModel}" Grid.Row="1"/>
+                </Grid>
+                
+            </NavigationView>
+        </Grid>
+    </Grid>
+
+    
+</Window>

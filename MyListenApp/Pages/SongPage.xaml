@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MyListenApp.Pages.SongPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyListenApp.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:song="using:MyListenApp.ViewModels.Song" d:DataContext="{d:DesignInstance Type=song:SongViewModel}"
+    xmlns:converters="using:MyListenApp.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:DurationToSmoothDurationConverter x:Key="SmoothDuration"/>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="8">
+            <TextBlock Text="{Binding Title}" 
+                       Style="{StaticResource PageTitleTextBlockStyle}"
+                       TextAlignment="Center"/>
+            <TextBlock Text="{Binding Artist}" 
+                       Style="{StaticResource PageSubtitleTitleTextBlockStyle}"
+                       TextAlignment="Center"/>
+            <TextBlock Text="{Binding Duration, Converter={StaticResource SmoothDuration}}" TextAlignment="Center"/>
+            <StackPanel Orientation="Horizontal"
+                        Spacing="16"
+                        HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="FontIcon">
+                        <Setter Property="FontSize" Value="14"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="PlayButton">
+                    <FontIcon Glyph="&#xE768;"/>
+                </Button>
+
+                <Button x:Name="LikeButton">
+                    <FontIcon Glyph="&#xE734;"/>
+                </Button>
+
+                <Button x:Name="RenameButton">
+                    <FontIcon Glyph="&#xE8AC;"/>
+                </Button>
+
+                <Button x:Name="ViewButton">
+                    <FontIcon Glyph="&#xE890;"/>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

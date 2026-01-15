@@ -1,0 +1,17 @@
+# BUILD
+bin/
+obj/
+
+# VS Code
+.vscode/
+
+# Visual Studio
+.vs/
+
+# Fichiers utilisateur Visual Studio
+*.user
+*.suo
+
+# Logs et fichiers temporaires
+*.log
+*.tmp
