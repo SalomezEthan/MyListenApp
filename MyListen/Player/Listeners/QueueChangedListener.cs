@@ -9,11 +9,11 @@ namespace MyListen.Player.Listeners
 
     public sealed class QueueChangedListener : Listener<IReadOnlyList<SongInfos>>
     {
-        public QueueChangedListener(PlaybackQueue queue, ISongRespository songStore)
+        public QueueChangedListener(PlaybackQueue queue, ISongRespository songRepo)
         {
             queue.PlaybackQueueChanged += (s, e) =>
             {
-                var songs = songStore.GetSongsByIds([.. e]);
+                var songs = songRepo.GetSongsByIds([.. e]);
                 OnNotified([..songs.Select(SongInfos.FromSongEntity)]);
             };
         }

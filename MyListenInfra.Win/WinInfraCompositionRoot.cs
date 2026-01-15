@@ -9,12 +9,12 @@ namespace MyListenInfra.Win
     {
         public ISongPlayer Player { get; } = new NAudioSongPlayer();
 
-        public ISongRespository SongStore { get; } = new LiteDbSongRepository(sourcePath);
+        public ISongRespository SongRepo { get; } = new LiteDbSongRepository(sourcePath);
 
-        public IPlaylistRepository PlaylistStore { get; } = new LiteDbPlaylistStore(sourcePath);
+        public ISongListRepository SongListRepo { get; } = new LiteDbSongListRepository(sourcePath);
 
         public ISongImporter SongImporter { get; } = new TagLibSongImporter();
 
-        public IPlaylistImporter PlaylistImporter { get; } = new IOPlaylistImporter();
+        public ISongListImporter SongListImporter { get; } = new IOSongListImporter();
     }
 }

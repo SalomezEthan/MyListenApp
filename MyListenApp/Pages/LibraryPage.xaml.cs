@@ -41,7 +41,7 @@ namespace MyListenApp.Pages
                 viewModel = libVm;
                 this.DataContext = viewModel;
 
-                this.viewModel.CollectPlaylist();
+                this.viewModel.CollectSongList();
             }
         }
 
@@ -60,7 +60,7 @@ namespace MyListenApp.Pages
                 var result = await picker.PickSingleFolderAsync();
                 if (result is not null)
                 {
-                    viewModel?.ImportPlaylist(result.Path);
+                    viewModel?.ImportSongList(result.Path);
                 }
 
                 button.IsEnabled = true;

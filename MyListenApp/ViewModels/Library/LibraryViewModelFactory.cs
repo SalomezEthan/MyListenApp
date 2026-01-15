@@ -11,8 +11,8 @@ namespace MyListenApp.ViewModels.Library
         public LibraryViewModel CreateLibraryViewModel()
         {
             return new LibraryViewModel(
-                composantFactory.CreateCollectPlaylist(),
-                composantFactory.CreateImportPlaylist(),
+                composantFactory.CreateCollectSongList(),
+                composantFactory.CreateImportSongList(),
                 factory
             );
         }

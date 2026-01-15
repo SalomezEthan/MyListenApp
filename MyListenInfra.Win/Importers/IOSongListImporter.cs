@@ -6,17 +6,17 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListenInfra.Win.Importers
 {
-    internal sealed class IOPlaylistImporter : IPlaylistImporter
+    internal sealed class IOSongListImporter : ISongListImporter
     {
-        public Playlist ImportFromPlaylistReference(Reference playlistReference)
+        public SongList ImportFromSongListReference(Reference songListReference)
         {
-            Result<Name> name = Name.FromString(Path.GetFileName(playlistReference.ToString()));
+            Result<Name> name = Name.FromString(Path.GetFileName(songListReference.ToString()));
             if (!name.IsSuccess)
             {
                 throw new InvalidOperationException($"Le nom ne peut être initialisée : {name.GetFailure()}");
             }
 
-            return new Playlist(Guid.NewGuid(), name.GetValue(), [], false);
+            return new SongList(Guid.NewGuid(), name.GetValue(), [], false);
         }
     }
 }

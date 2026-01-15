@@ -7,16 +7,16 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.SongList.UseCases;
 
-public sealed record RenamePlaylistRequest(Guid PlaylistId, string NewName);
+public sealed record RenameSongListRequest(Guid SongListId, string NewName);
 
-public sealed class RenamePlaylist(IPlaylistRepository playlistStore) 
-: UseCase<RenamePlaylistRequest, Result<string>>
+public sealed class RenameSongList(ISongListRepository songListRepo) 
+: UseCase<RenameSongListRequest, Result<string>>
 {
-    readonly IPlaylistRepository playlistStore = playlistStore;
+    readonly ISongListRepository songListRepo = songListRepo;
 
-    public override void Execute(RenamePlaylistRequest request)
+    public override void Execute(RenameSongListRequest request)
     {
-        Playlist playlist = playlistStore.GetPlaylistById(request.PlaylistId);
+        Common.Entities.SongList songList = songListRepo.GetSongListById(request.SongListId);
         Result<Name> newName = Name.FromString(request.NewName);
         if (!newName.IsSuccess)
         {
@@ -24,14 +24,14 @@ public sealed class RenamePlaylist(IPlaylistRepository playlistStore)
             return;
         }
 
-        var result = playlist.Rename(newName.GetValue());
+        var result = songList.Rename(newName.GetValue());
         if (!result.IsSuccess)
         {
             Send(Result<string>.Fail($"Le renommage a échoué : {result.GetFailure()}"));
             return;
         }
 
-        playlistStore.UpdatePlaylist(playlist);
-        Send(Result<string>.Ok(playlist.Name.ToString()));
+        songListRepo.UpdateSongList(songList);
+        Send(Result<string>.Ok(songList.Name.ToString()));
     }
 }

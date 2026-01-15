@@ -7,33 +7,33 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.SongList.UseCases
 {
-    public sealed record PlaySongListRequest(Guid PlaylistId, Guid? StartSong = null);
+    public sealed record PlaySongListRequest(Guid SongListId, Guid? StartSong = null);
 
-    public sealed class PlaySongList(IPlaylistRepository playlistStore, PlaybackQueue playbackQueue, ISongRespository songStore, ISongPlayer songPlayer)
+    public sealed class PlaySongList(ISongListRepository songListRepo, PlaybackQueue playbackQueue, ISongRespository songRepo, ISongPlayer songPlayer)
     : UseCase<PlaySongListRequest>
     {
-        readonly IPlaylistRepository playlistStore = playlistStore;
+        readonly ISongListRepository songListRepo = songListRepo;
         readonly PlaybackQueue playbackQueue = playbackQueue;
-        readonly ISongRespository songStore = songStore;
+        readonly ISongRespository songRepo = songRepo;
         readonly ISongPlayer songPlayer = songPlayer;
 
         public override void Execute(PlaySongListRequest request)
         {
-            Playlist playlist = playlistStore.GetPlaylistById(request.PlaylistId);
-            Result<EnqueueList> enqueueList = EnqueueList.FromSongs(playlist.SongIds);
+            Common.Entities.SongList songList = songListRepo.GetSongListById(request.SongListId);
+            Result<EnqueueList> enqueueList = EnqueueList.FromSongs(songList.SongIds);
             if (!enqueueList.IsSuccess)
             {
                 Result.Fail($"Impossible de créer la liste de lecture : {enqueueList.GetFailure()}");
                 return;
             }
 
-            var songList = enqueueList.GetValue();
-            playbackQueue.SetPlaybackQueue(songList);
+            var enqueueListValue = enqueueList.GetValue();
+            playbackQueue.SetPlaybackQueue(enqueueListValue);
 
-            Guid startSongId = request.StartSong ?? songList.Songs[0];
+            Guid startSongId = request.StartSong ?? enqueueListValue.Songs[0];
             playbackQueue.MoveTo(startSongId);
 
-            Reference songReference = songStore.GetSongReferenceById(startSongId);
+            Reference songReference = songRepo.GetSongReferenceById(startSongId);
             songPlayer.PlaySong(songReference);
 
             Send(Result.Ok());

@@ -9,14 +9,14 @@ namespace MyListen.Song.UseCases;
 
 public sealed record RenameSongRequest(Guid SongId, string NewName);
 
-public sealed class RenameSong(ISongRespository songStore)
+public sealed class RenameSong(ISongRespository songRepo)
 : UseCase<RenameSongRequest, Result<string>>
 {
-    readonly ISongRespository songStore = songStore;
+    readonly ISongRespository songRepo = songRepo;
 
     public override void Execute(RenameSongRequest request)
     {
-        Common.Entities.Song song = songStore.GetBySongId(request.SongId);
+        Common.Entities.Song song = songRepo.GetBySongId(request.SongId);
         Result<Name> newName = Name.FromString(request.NewName);
         if (!newName.IsSuccess)
         {
@@ -31,7 +31,7 @@ public sealed class RenameSong(ISongRespository songStore)
             return;
         }
 
-        songStore.UpdateSong(song);
+        songRepo.UpdateSong(song);
         Send(Result<string>.Ok(song.Title.ToString()));
     }
 }

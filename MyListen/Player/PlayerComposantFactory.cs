@@ -5,19 +5,19 @@ using MyListen.Player.UseCases;
 
 namespace MyListen.Player
 {
-    public sealed class PlayerComposantFactory(PlaybackQueue queue, ISongPlayer songPlayer, ISongRespository songStore)
+    public sealed class PlayerComposantFactory(PlaybackQueue queue, ISongPlayer songPlayer, ISongRespository songRepo)
     {
         readonly PlaybackQueue queue = queue;
         readonly ISongPlayer songPlayer = songPlayer;
-        readonly ISongRespository songStore = songStore;
+        readonly ISongRespository songRepo = songRepo;
 
         public ChangePlaybackState CreateChangePlaybackState() => new(songPlayer);
-        public NextSongTrigger CreateNextSongTrigger() => new(queue, songPlayer, songStore);
-        public PreviousSongTrigger CreatePreviousSongTrigger() => new(queue, songPlayer, songStore);
+        public NextSongTrigger CreateNextSongTrigger() => new(queue, songPlayer, songRepo);
+        public PreviousSongTrigger CreatePreviousSongTrigger() => new(queue, songPlayer, songRepo);
         public ChangeVolume CreateChangeVolume() => new(songPlayer);
 
-        public SongChangedListener CreateSongChangedListener() => new(queue, songStore);
-        public QueueChangedListener CreateQueueChangedListener() => new(queue, songStore);
+        public SongChangedListener CreateSongChangedListener() => new(queue, songRepo);
+        public QueueChangedListener CreateQueueChangedListener() => new(queue, songRepo);
         public PlaybackStateChangedListener CreateStateChangedListener() => new(songPlayer);
         public SongEndedListener CreateSongEndedListener() => new(songPlayer);
 

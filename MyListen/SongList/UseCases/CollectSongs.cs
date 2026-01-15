@@ -4,20 +4,20 @@ using MyListen.Common.Services.Stores;
 
 namespace MyListen.SongList.UseCases;
 
-public sealed record CollectSongsRequest(Guid PlaylistId);
+public sealed record CollectSongsRequest(Guid SongListId);
 
 public sealed record CollectSongsResponse(IReadOnlyList<SongInfos> CollectedSongs);
 
-public sealed class CollectSongs(ISongRespository songStore, IPlaylistRepository playlistStore)
+public sealed class CollectSongs(ISongRespository songRepo, ISongListRepository songListRepo)
 : UseCase<CollectSongsRequest, CollectSongsResponse>
 {
-    readonly ISongRespository songStore = songStore;
-    readonly IPlaylistRepository playlistStore = playlistStore;
+    readonly ISongRespository songRepo = songRepo;
+    readonly ISongListRepository songListRepo = songListRepo;
 
     public override void Execute(CollectSongsRequest request)
     {
-        var playlist = playlistStore.GetPlaylistById(request.PlaylistId);
-        var songs = songStore.GetSongsByIds([.. playlist.SongIds]);
+        var songList = songListRepo.GetSongListById(request.SongListId);
+        var songs = songRepo.GetSongsByIds([.. songList.SongIds]);
         var songInfos = from song in songs select SongInfos.FromSongEntity(song);
         Send(new CollectSongsResponse([.. songInfos]));
     }

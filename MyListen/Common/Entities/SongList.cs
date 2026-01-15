@@ -4,7 +4,7 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.Common.Entities
 {
-    public class Playlist(Guid id, Name name, Guid[] songs, bool isReadonly) : Entity(id)
+    public class SongList(Guid id, Name name, Guid[] songs, bool isReadonly) : Entity(id)
     {
         public Name Name { get; private set; } = name;
 
@@ -15,7 +15,7 @@ namespace MyListen.Common.Entities
 
         public Result Rename(Name newName)
         {
-            if (IsReadonly) return Result.Fail("Une playlist en lecture seule ne peut être modifiée.");
+            if (IsReadonly) return Result.Fail("Une songList en lecture seule ne peut être modifiée.");
             if (Name == newName) return Result.Fail("Le nouveau nom est identique");
             Name = newName;
             return Result.Ok();

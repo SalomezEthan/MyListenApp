@@ -4,8 +4,8 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.Common.Services.Importers
 {
-    public interface IPlaylistImporter
+    public interface ISongListImporter
     {
-        Playlist ImportFromPlaylistReference(Reference playlistReference);
+        Entities.SongList ImportFromSongListReference(Reference songListReference);
     }
 }

@@ -35,9 +35,9 @@ namespace MyListenApp.ViewModels.SongList
 
         readonly CollectSongs collectSongs;
         readonly PlaySongList playSongList;
-        readonly RenamePlaylist renamePlaylist;
+        readonly RenameSongList renameSongList;
 
-        internal SongListViewModel(PlaylistInfos infos, CollectSongs collectSongs, PlaySongList playSongList, RenamePlaylist renamePlaylist, SongViewModelMap songViewModelMap)
+        internal SongListViewModel(SongListInfos infos, CollectSongs collectSongs, PlaySongList playSongList, RenameSongList renameSongList, SongViewModelMap songViewModelMap)
         {
             this.Id = infos.Id;
             this._name = infos.Name;
@@ -51,8 +51,8 @@ namespace MyListenApp.ViewModels.SongList
 
             this.playSongList = playSongList;
 
-            this.renamePlaylist = renamePlaylist;
-            this.renamePlaylist.ResultSended += (s, e) =>
+            this.renameSongList = renameSongList;
+            this.renameSongList.ResultSended += (s, e) =>
             {
                 if (e.IsSuccess)
                 {
@@ -75,8 +75,8 @@ namespace MyListenApp.ViewModels.SongList
 
         public void Rename(string newName)
         {
-            var request = new RenamePlaylistRequest(Id, newName);
-            renamePlaylist.Execute(request);
+            var request = new RenameSongListRequest(Id, newName);
+            renameSongList.Execute(request);
         }
     }
 }

@@ -16,18 +16,18 @@ namespace MyListenApp.ViewModels.Library
             set => SetValue(ref _songLists, value);
         }
 
-        readonly CollectPlaylistTrigger playlistCollector;
-        readonly ImportPlaylist playlistImporter;
-        public LibraryViewModel(CollectPlaylistTrigger playlistCollector, ImportPlaylist playlistImporter, SongListViewModelFactory songListFactory)
+        readonly CollectSongList songListRepo;
+        readonly ImportSongList songListImporter;
+        public LibraryViewModel(CollectSongList songListRepo, ImportSongList songListImporter, SongListViewModelFactory songListFactory)
         {
-            this.playlistCollector = playlistCollector;
-            this.playlistCollector.ResultSended += (s, e) =>
+            this.songListRepo = songListRepo;
+            this.songListRepo.ResultSended += (s, e) =>
             {
-                SongLists = [.. e.Playlists.Select(songListFactory.CreateSongList)];
+                SongLists = [.. e.SongLists.Select(songListFactory.CreateSongList)];
             };
 
-            this.playlistImporter = playlistImporter;
-            this.playlistImporter.ResultSended += (s, e) =>
+            this.songListImporter = songListImporter;
+            this.songListImporter.ResultSended += (s, e) =>
             {
                 if (e.IsSuccess)
                 {
@@ -37,12 +37,12 @@ namespace MyListenApp.ViewModels.Library
             };
         }
 
-        public void CollectPlaylist() => playlistCollector.Execute();
+        public void CollectSongList() => songListRepo.Execute();
 
-        public void ImportPlaylist(string reference)
+        public void ImportSongList(string reference)
         {
-            var request = new ImportPlaylistRequest(reference);
-            playlistImporter.Execute(request);
+            var request = new ImportSongListRequest(reference);
+            songListImporter.Execute(request);
         }
     }
 }

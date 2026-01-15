@@ -3,7 +3,7 @@ using MyListen.Common.Entities;
 
 namespace MyListenInfra.Win.Rows
 {
-    public sealed record PlaylistDataRow
+    public sealed record SongListDataRow
     {
         [BsonId]
         public required Guid Id { get; init; }
@@ -11,20 +11,20 @@ namespace MyListenInfra.Win.Rows
         public required Guid[] SongIds { get; init; }
         public required bool IsReadOnly { get; init; }
 
-        public static PlaylistDataRow FromEntity(Playlist playlist, bool isReadOnly)
+        public static SongListDataRow FromEntity(SongList songList, bool isReadOnly)
         {
-            return new PlaylistDataRow
+            return new SongListDataRow
             {
-                Id = playlist.Id,
-                Name = playlist.Name.ToString(),
-                SongIds = [.. playlist.SongIds],
+                Id = songList.Id,
+                Name = songList.Name.ToString(),
+                SongIds = [.. songList.SongIds],
                 IsReadOnly = isReadOnly,
             };
         }
 
-        public Playlist ToEntity()
+        public SongList ToEntity()
         {
-            return new Playlist(
+            return new SongList(
                 Id,
                 MyListen.Common.ValueObjects.Name.FromString(Name).GetValue(),
                 SongIds,

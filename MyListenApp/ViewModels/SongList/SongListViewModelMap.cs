@@ -8,13 +8,13 @@ namespace MyListenApp.ViewModels.SongList
     {
         readonly SongListViewModelFactory factory = songListViewModelFactory;
 
-        public SongListViewModel CreateSongListViewModel(PlaylistInfos infos)
+        public SongListViewModel CreateSongListViewModel(SongListInfos infos)
         {
             var vm = factory.CreateSongList(infos);
             return SetNewViewModel(infos.Id, vm);
         }
 
-        public SongListViewModel GetSafeWithPlaylistInfos(PlaylistInfos infos)
+        public SongListViewModel GetSafeWithSongListInfos(SongListInfos infos)
         {
             var vm = TryGetViewModel(infos.Id);
             return vm ?? CreateSongListViewModel(infos);

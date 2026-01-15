@@ -6,12 +6,12 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.Player.UseCases
 {
-    public sealed class PreviousSongTrigger(PlaybackQueue queue, ISongPlayer songPlayer, ISongRespository songStore)
+    public sealed class PreviousSongTrigger(PlaybackQueue queue, ISongPlayer songPlayer, ISongRespository songRepo)
     : TriggerUseCase<Result>
     {
         readonly PlaybackQueue queue = queue;
         readonly ISongPlayer songPlayer = songPlayer;
-        readonly ISongRespository songStore = songStore;
+        readonly ISongRespository songRepo = songRepo;
 
         public override void Execute()
         {
@@ -22,7 +22,7 @@ namespace MyListen.Player.UseCases
                 return;
             }
             
-            Reference reference = songStore.GetSongReferenceById(previousSongId.GetValue());
+            Reference reference = songRepo.GetSongReferenceById(previousSongId.GetValue());
             songPlayer.PlaySong(reference);
             Send(Result.Ok());
         }

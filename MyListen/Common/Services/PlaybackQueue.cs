@@ -48,7 +48,7 @@ public sealed class PlaybackQueue
 
     public Result<Guid> MoveTo(Guid id)
     {
-        if (!playbackQueue.Contains(id)) return Result<Guid>.Fail("L'identifiant est introuvable dans la playlist.");
+        if (!playbackQueue.Contains(id)) return Result<Guid>.Fail("L'identifiant est introuvable dans la songList.");
 
         while (playbackQueue.Peek() != id)
         {

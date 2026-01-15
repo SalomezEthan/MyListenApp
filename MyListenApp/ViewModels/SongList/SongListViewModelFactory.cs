@@ -9,13 +9,13 @@ namespace MyListenApp.ViewModels.SongList
         readonly SongListComposantFactory composantFactory = composantFactory;
         readonly SongViewModelMap songViewModelMap = songViewModelMap;
 
-        public SongListViewModel CreateSongList(PlaylistInfos infos)
+        public SongListViewModel CreateSongList(SongListInfos infos)
         {
             return new SongListViewModel(
                 infos,
                 composantFactory.CreateCollectSongs(),
                 composantFactory.CreatePlaySongList(),
-                composantFactory.CreateRenamePlaylist(),
+                composantFactory.CreateRenameSongList(),
                 songViewModelMap
             );
         }

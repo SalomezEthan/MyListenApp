@@ -6,17 +6,17 @@ namespace MyListen.Song.UseCases
 {
     public sealed record ChangeFavouriteStateRequest(Guid SongId, bool IsFavourite);
 
-    public sealed class ChangeFavouriteState(ISongRespository songStore)
+    public sealed class ChangeFavouriteState(ISongRespository songRepo)
     : NoResponseUseCase<ChangeFavouriteStateRequest>
     {
-        readonly ISongRespository songStore = songStore;
+        readonly ISongRespository songRepo = songRepo;
 
         public override void Execute(ChangeFavouriteStateRequest request)
         {
-            Common.Entities.Song song = songStore.GetBySongId(request.SongId);
+            Common.Entities.Song song = songRepo.GetBySongId(request.SongId);
             if (!request.IsFavourite) song.Like();
             else song.Dislike();
-            songStore.UpdateSong(song);
+            songRepo.UpdateSong(song);
         }
     }
 }

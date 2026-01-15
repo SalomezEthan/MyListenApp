@@ -1,6 +1,6 @@
 ﻿namespace MyListen.Common.DataTransfertObjects
 {
-    public sealed record PlaylistInfos
+    public sealed record SongListInfos
     {
         public required Guid Id { get; init; }
         public required string Name { get; init; }

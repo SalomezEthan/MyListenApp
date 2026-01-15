@@ -6,9 +6,9 @@ namespace MyListen.Common.Services
     public interface IExternServiceCompositionRoot
     {
         ISongPlayer Player { get; }
-        ISongRespository SongStore { get; }
-        IPlaylistRepository PlaylistStore { get; }
+        ISongRespository SongRepo { get; }
+        ISongListRepository SongListRepo { get; }
         ISongImporter SongImporter { get; }
-        IPlaylistImporter PlaylistImporter { get; }
+        ISongListImporter SongListImporter { get; }
     }
 }
