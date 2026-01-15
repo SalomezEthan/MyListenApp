@@ -54,7 +54,7 @@ namespace MyListenApp.Pages
                 {
                     SuggestedStartLocation = PickerLocationId.MusicLibrary,
                     ViewMode = PickerViewMode.Thumbnail,
-                    CommitButtonText = "Take this music folder"
+                    CommitButtonText = "Take this song folder"
                 };
 
                 var result = await picker.PickSingleFolderAsync();

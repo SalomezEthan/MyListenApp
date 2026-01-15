@@ -12,10 +12,10 @@ namespace MyListenApp.ViewModels.Player
         {
             return new PlayerViewModel(
                 factory.CreateChangePlaybackState(),
-                factory.CreateNextMusicTrigger(),
-                factory.CreatePreviousMusicTrigger(),
+                factory.CreateNextSongTrigger(),
+                factory.CreatePreviousSongTrigger(),
                 factory.CreateChangeVolume(),
-                factory.CreateMusicChangedListener(),
+                factory.CreateSongChangedListener(),
                 factory.CreateQueueChangedListener(),
                 factory.CreateStateChangedListener(),
                 factory.CreateSongEndedListener(),

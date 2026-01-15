@@ -37,10 +37,10 @@ namespace MyListenApp.ViewModels.Song
             set => SetValue(ref _isLiked, value);
         }
 
-        readonly RenameMusic renameMusic;
+        readonly RenameSong renameSong;
         readonly ChangeFavouriteState changeFavouriteState;
 
-        public SongViewModel(MusicInfos infos, RenameMusic renameMusic, ChangeFavouriteState changeFavouriteState)
+        public SongViewModel(SongInfos infos, RenameSong renameSong, ChangeFavouriteState changeFavouriteState)
         {
             Id = infos.Id;
             _title = infos.Title;
@@ -48,8 +48,8 @@ namespace MyListenApp.ViewModels.Song
             _duration = infos.Duration;
             _isLiked = infos.IsLiked;
             
-            this.renameMusic = renameMusic;
-            this.renameMusic.ResultSended += (s, newNameResult) =>
+            this.renameSong = renameSong;
+            this.renameSong.ResultSended += (s, newNameResult) =>
             {
                 if (newNameResult.IsSuccess)
                 {
@@ -64,8 +64,8 @@ namespace MyListenApp.ViewModels.Song
 
         public void Rename(string newName)
         {
-            var request = new RenameMusicRequest(Id, newName);
-            renameMusic.Execute(request);
+            var request = new RenameSongRequest(Id, newName);
+            renameSong.Execute(request);
         }
 
         void ToggleFavourite()

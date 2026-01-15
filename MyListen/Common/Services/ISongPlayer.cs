@@ -3,9 +3,9 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.Common.Services
 {
-    public interface IMusicPlayer
+    public interface ISongPlayer
     {
-        void PlayMusic(Reference musicReference);
+        void PlaySong(Reference songReference);
         void Play();
         void Pause();
         void ChangeVolume(Volume volume);

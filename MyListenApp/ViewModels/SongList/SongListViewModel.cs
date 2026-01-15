@@ -26,27 +26,27 @@ namespace MyListenApp.ViewModels.SongList
             set => SetValue(ref _count, value);
         }
 
-        ObservableCollection<SongViewModel> _musics = [];
-        public ObservableCollection<SongViewModel> Musics
+        ObservableCollection<SongViewModel> _songs = [];
+        public ObservableCollection<SongViewModel> Songs
         {
-            get => _musics;
-            set => SetValue(ref _musics, value);
+            get => _songs;
+            set => SetValue(ref _songs, value);
         }
 
-        readonly CollectMusics collectMusics;
+        readonly CollectSongs collectSongs;
         readonly PlaySongList playSongList;
         readonly RenamePlaylist renamePlaylist;
 
-        internal SongListViewModel(PlaylistInfos infos, CollectMusics collectMusics, PlaySongList playSongList, RenamePlaylist renamePlaylist, SongViewModelMap songViewModelMap)
+        internal SongListViewModel(PlaylistInfos infos, CollectSongs collectSongs, PlaySongList playSongList, RenamePlaylist renamePlaylist, SongViewModelMap songViewModelMap)
         {
             this.Id = infos.Id;
             this._name = infos.Name;
             this._count = infos.Count;
 
-            this.collectMusics = collectMusics;
-            this.collectMusics.ResultSended += (s, e) =>
+            this.collectSongs = collectSongs;
+            this.collectSongs.ResultSended += (s, e) =>
             {
-                Musics = [.. e.CollectedMusics.Select(songViewModelMap.GetSafeWithSongInfos)];
+                Songs = [.. e.CollectedSongs.Select(songViewModelMap.GetSafeWithSongInfos)];
             };
 
             this.playSongList = playSongList;
@@ -61,15 +61,15 @@ namespace MyListenApp.ViewModels.SongList
             };
         }
 
-        public void CollectMusics()
+        public void CollectSongs()
         {
-            var request = new CollectMusicsRequest(Id);
-            collectMusics.Execute(request);
+            var request = new CollectSongsRequest(Id);
+            collectSongs.Execute(request);
         }
 
-        public void PlaySongList(Guid? musicId = null)
+        public void PlaySongList(Guid? songId = null)
         {
-            var request = new PlaySongListRequest(Id, musicId);
+            var request = new PlaySongListRequest(Id, songId);
             playSongList.Execute(request);
         }
 

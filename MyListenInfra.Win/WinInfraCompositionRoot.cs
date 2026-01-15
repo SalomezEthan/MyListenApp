@@ -7,13 +7,13 @@ namespace MyListenInfra.Win
 {
     public sealed class WinInfraCompositionRoot (string sourcePath) : IExternServiceCompositionRoot
     {
-        public IMusicPlayer MusicPlayer { get; } = new NAudioMusicPlayer();
+        public ISongPlayer Player { get; } = new NAudioSongPlayer();
 
-        public IMusicStore MusicStore { get; } = new LiteDbMusicStore(sourcePath);
+        public ISongStore SongStore { get; } = new LiteDbSongStore(sourcePath);
 
         public IPlaylistStore PlaylistStore { get; } = new LiteDbPlaylistStore(sourcePath);
 
-        public IMusicImporter MusicImporter { get; } = new TagLibMusicImporter();
+        public ISongImporter SongImporter { get; } = new TagLibSongImporter();
 
         public IPlaylistImporter PlaylistImporter { get; } = new IOPlaylistImporter();
     }

@@ -60,17 +60,17 @@ namespace MyListenApp.ViewModels.Player
 
 
         readonly ChangePlaybackState changePlaybackState;
-        readonly NextMusicTrigger next;
-        readonly PreviousMusicTrigger previous;
+        readonly NextSongTrigger next;
+        readonly PreviousSongTrigger previous;
         readonly ChangeVolume changeVolume;
 
         public PlayerViewModel
         (
             ChangePlaybackState changePlaybackState,
-            NextMusicTrigger next, 
-            PreviousMusicTrigger previous, 
+            NextSongTrigger next, 
+            PreviousSongTrigger previous, 
             ChangeVolume changeVolume, 
-            MusicChangedListener musicChangedListener, 
+            SongChangedListener songChangedListener, 
             QueueChangedListener queueChangedListener,
             PlaybackStateChangedListener stateChangedListener,
             SongEndedListener songEndedListener,
@@ -87,9 +87,9 @@ namespace MyListenApp.ViewModels.Player
                 Queue = [.. newQueue.Select(infos => songViewModelMap.GetSafeWithSongInfos(infos))];
             };
 
-            musicChangedListener.Notified += (s, newMusic) =>
+            songChangedListener.Notified += (s, newSong) =>
             {
-                CurrentSong = songViewModelMap.GetSafeWithSongInfos(newMusic);
+                CurrentSong = songViewModelMap.GetSafeWithSongInfos(newSong);
             };
 
             stateChangedListener.Notified += (s, newPlayState) =>

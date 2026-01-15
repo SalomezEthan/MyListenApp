@@ -4,12 +4,12 @@ using NAudio.Wave;
 
 namespace MyListenInfra.Win
 {
-    internal sealed class NAudioMusicPlayer : IMusicPlayer
+    internal sealed class NAudioSongPlayer : ISongPlayer
     {
         readonly WaveOutEvent player = new();
         Mp3FileReader? reader;
 
-        public NAudioMusicPlayer()
+        public NAudioSongPlayer()
         {
             player.PlaybackStopped += (s, e) =>
             {
@@ -20,7 +20,7 @@ namespace MyListenInfra.Win
             };
         }
 
-        public void PlayMusic(Reference reference)
+        public void PlaySong(Reference reference)
         {
             player.Stop();
             reader?.Dispose();

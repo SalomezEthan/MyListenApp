@@ -19,9 +19,9 @@ using MyListenApp.ViewModels.Player;
 
 namespace MyListenApp.UserControls;
 
-internal sealed partial class MusicPlayer : UserControl
+internal sealed partial class SongPlayer : UserControl
 {
-    public MusicPlayer()
+    public SongPlayer()
     {
         InitializeComponent();
     }
@@ -29,7 +29,7 @@ internal sealed partial class MusicPlayer : UserControl
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
         "ViewModel",
         typeof(PlayerViewModel),
-        typeof(MusicPlayer),
+        typeof(SongPlayer),
         new PropertyMetadata(null)
     );
 
@@ -67,7 +67,7 @@ internal sealed partial class MusicPlayer : UserControl
 
     }
 
-    private void LikeMusicButton_Click(object sender, RoutedEventArgs e)
+    private void LikeSongButton_Click(object sender, RoutedEventArgs e)
     {
 
     }

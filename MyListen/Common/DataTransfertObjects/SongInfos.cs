@@ -2,7 +2,7 @@
 
 namespace MyListen.Common.DataTransfertObjects
 {
-    public sealed record MusicInfos
+    public sealed record SongInfos
     {
         public required Guid Id { get; init; }
         public required string Title { get; init; }
@@ -10,21 +10,21 @@ namespace MyListen.Common.DataTransfertObjects
         public required TimeSpan Duration { get; init; }
         public required bool IsLiked { get; init; }
 
-        public static MusicInfos FromMusicEntity(Entities.Song music)
+        public static SongInfos FromSongEntity(Entities.Song song)
         {
-            return new MusicInfos
+            return new SongInfos
             {
-                Id = music.Id,
-                Title = music.Title.ToString(),
-                Artist = music.Artist.ToString(),
-                Duration = music.Duration,
-                IsLiked = music.IsFavourite,
+                Id = song.Id,
+                Title = song.Title.ToString(),
+                Artist = song.Artist.ToString(),
+                Duration = song.Duration,
+                IsLiked = song.IsFavourite,
             };
         }
 
-        public static MusicInfos Error(Guid id)
+        public static SongInfos Error(Guid id)
         {
-            return new MusicInfos
+            return new SongInfos
             {
                 Id = id,
                 Title = string.Empty,

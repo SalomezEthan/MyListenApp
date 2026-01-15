@@ -40,7 +40,7 @@ namespace MyListenApp.Pages
                 viewModel = songListVM;
                 this.DataContext = viewModel;
 
-                viewModel.CollectMusics();
+                viewModel.CollectSongs();
             }
         }
 

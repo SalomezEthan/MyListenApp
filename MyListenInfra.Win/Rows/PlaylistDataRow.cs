@@ -8,7 +8,7 @@ namespace MyListenInfra.Win.Rows
         [BsonId]
         public required Guid Id { get; init; }
         public required string Name { get; init; }
-        public required Guid[] MusicIds { get; init; }
+        public required Guid[] SongIds { get; init; }
         public required bool IsReadOnly { get; init; }
 
         public static PlaylistDataRow FromEntity(Playlist playlist, bool isReadOnly)
@@ -17,7 +17,7 @@ namespace MyListenInfra.Win.Rows
             {
                 Id = playlist.Id,
                 Name = playlist.Name.ToString(),
-                MusicIds = [.. playlist.MusicIds],
+                SongIds = [.. playlist.SongIds],
                 IsReadOnly = isReadOnly,
             };
         }
@@ -27,7 +27,7 @@ namespace MyListenInfra.Win.Rows
             return new Playlist(
                 Id,
                 MyListen.Common.ValueObjects.Name.FromString(Name).GetValue(),
-                MusicIds,
+                SongIds,
                 IsReadOnly
             );
         }

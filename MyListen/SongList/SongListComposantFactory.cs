@@ -5,20 +5,20 @@ using MyListen.SongList.UseCases;
 
 namespace MyListen.SongList
 {
-    public sealed class SongListComposantFactory(IPlaylistStore playlistStore, IMusicStore musicStore, PlaybackQueue playbackQueue, IMusicPlayer musicPlayer)
+    public sealed class SongListComposantFactory(IPlaylistStore playlistStore, ISongStore songStore, PlaybackQueue playbackQueue, ISongPlayer songPlayer)
     {
         readonly IPlaylistStore playlistStore = playlistStore;
-        readonly IMusicStore musicStore = musicStore;
+        readonly ISongStore songStore = songStore;
         readonly PlaybackQueue playbackQueue = playbackQueue;
 
-        public CollectMusics CreateCollectMusics()
+        public CollectSongs CreateCollectSongs()
         {
-            return new CollectMusics(musicStore, playlistStore);
+            return new CollectSongs(songStore, playlistStore);
         }
 
         public PlaySongList CreatePlaySongList()
         {
-            return new PlaySongList(playlistStore, playbackQueue, musicStore, musicPlayer);
+            return new PlaySongList(playlistStore, playbackQueue, songStore, songPlayer);
         }
 
         public RenamePlaylist CreateRenamePlaylist()

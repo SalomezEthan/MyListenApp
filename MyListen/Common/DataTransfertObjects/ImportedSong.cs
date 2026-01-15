@@ -2,5 +2,5 @@
 using MyListen.Common.ValueObjects;
 namespace MyListen.Common.DataTransfertObjects
 {
-    public sealed record ImportedMusic(Entities.Song Entity, Reference MusicReference);
+    public sealed record ImportedSong(Entities.Song Entity, Reference SongReference);
 }

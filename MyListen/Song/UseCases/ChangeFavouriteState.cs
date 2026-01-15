@@ -4,25 +4,19 @@ using MyListen.Common.Services.Stores;
 
 namespace MyListen.Song.UseCases
 {
-    public sealed record ChangeFavouriteStateRequest(Guid MusicId, bool IsFavourite);
+    public sealed record ChangeFavouriteStateRequest(Guid SongId, bool IsFavourite);
 
-    public sealed class ChangeFavouriteState(IMusicStore musicStore)
+    public sealed class ChangeFavouriteState(ISongStore songStore)
     : NoResponseUseCase<ChangeFavouriteStateRequest>
     {
-        readonly IMusicStore musicStore = musicStore;
+        readonly ISongStore songStore = songStore;
 
         public override void Execute(ChangeFavouriteStateRequest request)
         {
-            Common.Entities.Song music = musicStore.GetByMusicId(request.MusicId);
-            if (!request.IsFavourite) music.Like();
-            else music.Dislike();
-            musicStore.UpdateMusic(music);
+            Common.Entities.Song song = songStore.GetBySongId(request.SongId);
+            if (!request.IsFavourite) song.Like();
+            else song.Dislike();
+            songStore.UpdateSong(song);
         }
-    }
-
-    public enum NextFavouriteState
-    {
-        Favourite,
-        NotFavourite
     }
 }

@@ -7,14 +7,14 @@ using System.Linq;
 namespace MyListen.Player.Listeners
 {
 
-    public sealed class QueueChangedListener : Listener<IReadOnlyList<MusicInfos>>
+    public sealed class QueueChangedListener : Listener<IReadOnlyList<SongInfos>>
     {
-        public QueueChangedListener(PlaybackQueue queue, IMusicStore musicStore)
+        public QueueChangedListener(PlaybackQueue queue, ISongStore songStore)
         {
             queue.PlaybackQueueChanged += (s, e) =>
             {
-                var musics = musicStore.GetMusicsFromIds([.. e]);
-                OnNotified([..musics.Select(MusicInfos.FromMusicEntity)]);
+                var songs = songStore.GetSongsFromIds([.. e]);
+                OnNotified([..songs.Select(SongInfos.FromSongEntity)]);
             };
         }
     }

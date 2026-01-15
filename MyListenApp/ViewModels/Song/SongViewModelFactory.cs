@@ -7,11 +7,11 @@ namespace MyListenApp.ViewModels.Song
     {
         readonly SongComposantFactory composantFactory = composantFactory;
 
-        public SongViewModel CreateViewModel(MusicInfos infos)
+        public SongViewModel CreateViewModel(SongInfos infos)
         {
             return new SongViewModel(
                 infos,
-                composantFactory.CreateRenameMusic(),
+                composantFactory.CreateRenameSong(),
                 composantFactory.CreateChangeFavouriteState()
             );
         }

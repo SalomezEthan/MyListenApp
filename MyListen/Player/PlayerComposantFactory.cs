@@ -5,21 +5,21 @@ using MyListen.Player.UseCases;
 
 namespace MyListen.Player
 {
-    public sealed class PlayerComposantFactory(PlaybackQueue queue, IMusicPlayer musicPlayer, IMusicStore musicStore)
+    public sealed class PlayerComposantFactory(PlaybackQueue queue, ISongPlayer songPlayer, ISongStore songStore)
     {
         readonly PlaybackQueue queue = queue;
-        readonly IMusicPlayer musicPlayer = musicPlayer;
-        readonly IMusicStore musicStore = musicStore;
+        readonly ISongPlayer songPlayer = songPlayer;
+        readonly ISongStore songStore = songStore;
 
-        public ChangePlaybackState CreateChangePlaybackState() => new(musicPlayer);
-        public NextMusicTrigger CreateNextMusicTrigger() => new(queue, musicPlayer, musicStore);
-        public PreviousMusicTrigger CreatePreviousMusicTrigger() => new(queue, musicPlayer, musicStore);
-        public ChangeVolume CreateChangeVolume() => new(musicPlayer);
+        public ChangePlaybackState CreateChangePlaybackState() => new(songPlayer);
+        public NextSongTrigger CreateNextSongTrigger() => new(queue, songPlayer, songStore);
+        public PreviousSongTrigger CreatePreviousSongTrigger() => new(queue, songPlayer, songStore);
+        public ChangeVolume CreateChangeVolume() => new(songPlayer);
 
-        public MusicChangedListener CreateMusicChangedListener() => new(queue, musicStore);
-        public QueueChangedListener CreateQueueChangedListener() => new(queue, musicStore);
-        public PlaybackStateChangedListener CreateStateChangedListener() => new(musicPlayer);
-        public SongEndedListener CreateSongEndedListener() => new(musicPlayer);
+        public SongChangedListener CreateSongChangedListener() => new(queue, songStore);
+        public QueueChangedListener CreateQueueChangedListener() => new(queue, songStore);
+        public PlaybackStateChangedListener CreateStateChangedListener() => new(songPlayer);
+        public SongEndedListener CreateSongEndedListener() => new(songPlayer);
 
     }
 }

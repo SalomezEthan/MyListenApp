@@ -4,7 +4,7 @@ namespace MyListen.Common.Services;
 
 public sealed class PlaybackQueue 
 {
-    EnqueueList? musicCollection;
+    EnqueueList? songCollection;
 
     readonly Queue<Guid> playbackQueue = []; 
     readonly Stack<Guid> history = [];
@@ -12,34 +12,34 @@ public sealed class PlaybackQueue
     bool isLooped = false;
 
 
-    Guid _currentMusicId;
-    public Guid currentMusicId
+    Guid _currentSongId;
+    public Guid CurrentSongId
     {
-        get => _currentMusicId;
+        get => _currentSongId;
         set
         {
-            _currentMusicId = value;
-            OnCurrentMusicIdChanged(value);
+            _currentSongId = value;
+            OnCurrentSongIdChanged(value);
         }
     }
 
-    public void SetPlaybackQueue(EnqueueList musicCollection)
+    public void SetPlaybackQueue(EnqueueList songCollection)
     {
-        this.musicCollection = musicCollection;
-        FillPlaybackQueue(this.musicCollection.Songs);
+        this.songCollection = songCollection;
+        FillPlaybackQueue(this.songCollection.Songs);
         history.Clear();
     }
 
-    void FillPlaybackQueue(IReadOnlyList<Guid> musicCollection)
+    void FillPlaybackQueue(IReadOnlyList<Guid> songCollection)
     {
-        FillFromSongList(musicCollection);
-        currentMusicId = playbackQueue.First();
+        FillFromSongList(songCollection);
+        CurrentSongId = playbackQueue.First();
     }
 
-    void FillFromSongList(IReadOnlyList<Guid> musicCollection)
+    void FillFromSongList(IReadOnlyList<Guid> songCollection)
     {
         playbackQueue.Clear();
-        foreach (Guid id in musicCollection)
+        foreach (Guid id in songCollection)
         {
             playbackQueue.Enqueue(id);
         }
@@ -55,37 +55,37 @@ public sealed class PlaybackQueue
             playbackQueue.Dequeue();
         } 
         
-        currentMusicId = playbackQueue.Dequeue();
-        return Result<Guid>.Ok(currentMusicId);
+        CurrentSongId = playbackQueue.Dequeue();
+        return Result<Guid>.Ok(CurrentSongId);
     }
 
-    public Result SetShuffledPlaybackQueue(EnqueueList musicCollection, Guid StartedSong)
+    public Result SetShuffledPlaybackQueue(EnqueueList songCollection, Guid StartedSong)
     {
-        if (!musicCollection.Songs.Contains(StartedSong)) return Result.Fail("L'identifiant de la musique de départ est introuvable dans la collection.");
-        this.musicCollection = musicCollection;
+        if (!songCollection.Songs.Contains(StartedSong)) return Result.Fail("L'identifiant de la musique de départ est introuvable dans la collection.");
+        this.songCollection = songCollection;
         history.Clear();
         return ShufflePlayBackQueue(StartedSong);
     }
 
 
-    public Result ShufflePlayBackQueue(Guid? startedMusic = null)
+    public Result ShufflePlayBackQueue(Guid? startedSong = null)
     {
-        if (musicCollection is null) return Result.Fail("La collection est vide.");
+        if (songCollection is null) return Result.Fail("La collection est vide.");
 
-        List<Guid> musicIds = [.. musicCollection.Songs];
+        List<Guid> songIds = [.. songCollection.Songs];
         List<Guid> shuffledList = [];
 
-        if (startedMusic is Guid realId)
+        if (startedSong is Guid realId)
         {
-            musicIds.Remove(realId);
+            songIds.Remove(realId);
             shuffledList.Add(realId);
         }
 
-        while (musicIds.Count > 0)
+        while (songIds.Count > 0)
         {
-            int randomIndex = random.Next(musicIds.Count);
-            shuffledList.Add(musicIds.ElementAt(randomIndex));
-            musicIds.RemoveAt(randomIndex);
+            int randomIndex = random.Next(songIds.Count);
+            shuffledList.Add(songIds.ElementAt(randomIndex));
+            songIds.RemoveAt(randomIndex);
         }
 
         FillPlaybackQueue(shuffledList);
@@ -95,8 +95,8 @@ public sealed class PlaybackQueue
 
     public Result OrderPlaybackQueue()
     {
-        if (musicCollection is null) return Result.Fail("La collection est vide.");
-        FillPlaybackQueue(musicCollection.Songs);
+        if (songCollection is null) return Result.Fail("La collection est vide.");
+        FillPlaybackQueue(songCollection.Songs);
         OnIsShuffled(false);
         return Result.Ok();
     }
@@ -110,24 +110,24 @@ public sealed class PlaybackQueue
 
     public Guid LoopNext()
     {
-        history.Push(currentMusicId);
-        currentMusicId = playbackQueue.Dequeue();
-        playbackQueue.Enqueue(currentMusicId);
-        return currentMusicId;
+        history.Push(CurrentSongId);
+        CurrentSongId = playbackQueue.Dequeue();
+        playbackQueue.Enqueue(CurrentSongId);
+        return CurrentSongId;
     }
 
     public Guid OrderNext()
     {
-        history.Push(currentMusicId);
-        currentMusicId = playbackQueue.Dequeue();
-        return currentMusicId;
+        history.Push(CurrentSongId);
+        CurrentSongId = playbackQueue.Dequeue();
+        return CurrentSongId;
     }
 
     public Result<Guid> PreviousSong()
     {
         if (!history.TryPop(out var id)) return Result<Guid>.Fail("Il n'y a pas de musique précédente dans l'historique.");
-        currentMusicId = id;
-        return Result<Guid>.Ok(currentMusicId);
+        CurrentSongId = id;
+        return Result<Guid>.Ok(CurrentSongId);
     }
 
     public void EnableLoop()
@@ -154,10 +154,10 @@ public sealed class PlaybackQueue
         IsLoopedStateChanged?.Invoke(this, newState);
     }
 
-    public event EventHandler<Guid>? CurrentMusicIdChanged;
-    void OnCurrentMusicIdChanged(Guid newId)
+    public event EventHandler<Guid>? CurrentSongIdChanged;
+    void OnCurrentSongIdChanged(Guid newId)
     {
-        CurrentMusicIdChanged?.Invoke(this, newId);
+        CurrentSongIdChanged?.Invoke(this, newId);
     }
 
     public event EventHandler<IReadOnlyList<Guid>>? PlaybackQueueChanged;

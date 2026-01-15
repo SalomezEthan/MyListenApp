@@ -13,7 +13,7 @@ namespace MyListenApp.ViewModels.SongList
         {
             return new SongListViewModel(
                 infos,
-                composantFactory.CreateCollectMusics(),
+                composantFactory.CreateCollectSongs(),
                 composantFactory.CreatePlaySongList(),
                 composantFactory.CreateRenamePlaylist(),
                 songViewModelMap

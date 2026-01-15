@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:songList="using:MyListenApp.ViewModels.SongList"
     xmlns:song="using:MyListenApp.ViewModels.Song"
-    xmlns:songControls="using:MyListenApp.UserControls.MusicList"
+    xmlns:songControls="using:MyListenApp.UserControls.SongList"
     d:DataContext="{d:DesignInstance Type=songList:SongListViewModel}"
     mc:Ignorable="d">
 
@@ -30,7 +30,7 @@
             </StackPanel>
         </Grid>
 
-        <ListView ItemsSource="{Binding Musics}"
+        <ListView ItemsSource="{Binding Songs}"
                   SelectionMode="None"
                   IsItemClickEnabled="True"
                   ItemClick="ListView_ItemClick"

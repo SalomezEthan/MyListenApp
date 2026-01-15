@@ -4,7 +4,7 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListenInfra.Win.Rows
 {
-    public sealed record MusicDataRow
+    public sealed record SongDataRow
     {
         [BsonId]
         public required Guid Id { get; init; }
@@ -14,15 +14,15 @@ namespace MyListenInfra.Win.Rows
         public required bool IsLiked { get; init; }
         public required string Reference { get; init; }
 
-        public static MusicDataRow FromEntity(Song music, string reference)
+        public static SongDataRow FromEntity(Song song, string reference)
         {
-            return new MusicDataRow
+            return new SongDataRow
             {
-                Id = music.Id,
-                Title = music.Title.ToString(),
-                Artist = music.Artist.ToString(),
-                Duration = music.Duration,
-                IsLiked = music.IsFavourite,
+                Id = song.Id,
+                Title = song.Title.ToString(),
+                Artist = song.Artist.ToString(),
+                Duration = song.Duration,
+                IsLiked = song.IsFavourite,
                 Reference = reference
             };
         }

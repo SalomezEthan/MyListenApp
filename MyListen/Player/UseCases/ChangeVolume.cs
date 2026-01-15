@@ -7,10 +7,10 @@ namespace MyListen.Player.UseCases;
 
 public sealed record ChangeVolumeRequest(float volume);
 
-public sealed class ChangeVolume(IMusicPlayer volumeModifier)
+public sealed class ChangeVolume(ISongPlayer volumeModifier)
 : UseCase<ChangeVolumeRequest>
 {
-    readonly IMusicPlayer volumeModifier = volumeModifier;
+    readonly ISongPlayer volumeModifier = volumeModifier;
 
     public override void Execute(ChangeVolumeRequest request)
     {

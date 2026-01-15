@@ -4,13 +4,13 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.Common.Entities
 {
-    public class Playlist(Guid id, Name name, Guid[] childs, bool isReadonly) : Entity(id)
+    public class Playlist(Guid id, Name name, Guid[] songs, bool isReadonly) : Entity(id)
     {
         public Name Name { get; private set; } = name;
 
-        readonly List<Guid> musicIds = [.. childs];
-        public IReadOnlyList<Guid> MusicIds => musicIds;
-        public int Count => musicIds.Count;
+        readonly List<Guid> songIds = [.. songs];
+        public IReadOnlyList<Guid> SongIds => songIds;
+        public int Count => songIds.Count;
         public bool IsReadonly { get; private set; } = isReadonly;
 
         public Result Rename(Name newName)
@@ -21,17 +21,17 @@ namespace MyListen.Common.Entities
             return Result.Ok();
         }
 
-        public void AddNewMusicId(Guid id)
+        public void AddNewSongsId(Guid id)
         {
-            if (!musicIds.Contains(id))
+            if (!songIds.Contains(id))
             {
-                musicIds.Add(id);
+                songIds.Add(id);
             }
         }
 
-        public void RemoveMusicId(Guid id)
+        public void RemoveSongId(Guid id)
         {
-            musicIds.Remove(id);
+            songIds.Remove(id);
         }
     }
 }

@@ -6,29 +6,29 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListenInfra.Win.Importers
 {
-    internal sealed class TagLibMusicImporter : IMusicImporter
+    internal sealed class TagLibSongImporter : ISongImporter
     {
-        public IReadOnlyList<ImportedMusic> ImportMusicsFromSource(Reference sourceReference)
+        public IReadOnlyList<ImportedSong> ImportSongsFromSource(Reference sourceReference)
         {
             var paths = Directory.GetFiles(sourceReference.ToString(), "*.mp3");
-            List<ImportedMusic> musics = [];
+            List<ImportedSong> songs = [];
             foreach (var path in paths)
             {
                 Result<Reference> reference = Reference.FromString(path);
-                musics.Add(ImportFromMusicReference(reference.GetValue()));
+                songs.Add(ImportFromSongReference(reference.GetValue()));
             }
 
-            return musics;
+            return songs;
         }
 
-        public ImportedMusic ImportFromMusicReference(Reference musicReference)
+        public ImportedSong ImportFromSongReference(Reference songReference)
         {
-            var file = TagLib.File.Create(musicReference.ToString());
+            var file = TagLib.File.Create(songReference.ToString());
             var tags = file.Tag;
             var properties = file.Properties;
 
             
-            var music =  new Song(
+            var song =  new Song(
                 Guid.NewGuid(),
                 Name.FromString(tags.Title ?? Path.GetFileNameWithoutExtension(file.Name)).GetValue(),
                 Name.FromString(tags.FirstPerformer ?? "Unknown").GetValue(),
@@ -36,7 +36,7 @@ namespace MyListenInfra.Win.Importers
                 false
             );
 
-            return new ImportedMusic(music, musicReference);
+            return new ImportedSong(song, songReference);
         }
     }
 }

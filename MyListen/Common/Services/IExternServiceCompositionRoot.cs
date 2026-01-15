@@ -5,10 +5,10 @@ namespace MyListen.Common.Services
 {
     public interface IExternServiceCompositionRoot
     {
-        IMusicPlayer MusicPlayer { get; }
-        IMusicStore MusicStore { get; }
+        ISongPlayer Player { get; }
+        ISongStore SongStore { get; }
         IPlaylistStore PlaylistStore { get; }
-        IMusicImporter MusicImporter { get; }
+        ISongImporter SongImporter { get; }
         IPlaylistImporter PlaylistImporter { get; }
     }
 }

@@ -10,13 +10,13 @@ namespace MyListen.Library.UseCases
 {
     public sealed record ImportPlaylistRequest(string Reference);
 
-    public sealed class ImportPlaylist(IPlaylistStore playlistStore, IMusicStore musicStore, IPlaylistImporter playlistImporter, IMusicImporter musicImporter)
+    public sealed class ImportPlaylist(IPlaylistStore playlistStore, ISongStore songStore, IPlaylistImporter playlistImporter, ISongImporter songImporter)
     : UseCase<ImportPlaylistRequest, Result<PlaylistInfos>>
     {
         readonly IPlaylistStore playlistStore = playlistStore;
-        readonly IMusicStore musicStore = musicStore;
+        readonly ISongStore songStore = songStore;
         readonly IPlaylistImporter playlistImporter = playlistImporter;
-        readonly IMusicImporter musicImporter = musicImporter;
+        readonly ISongImporter songImporter = songImporter;
 
         public override void Execute(ImportPlaylistRequest request)
         {
@@ -35,7 +35,7 @@ namespace MyListen.Library.UseCases
                 return;
             }
 
-            ImportPlaylistWithMusics(playlist, reference.GetValue());
+            ImportPlaylistWithSongs(playlist, reference.GetValue());
             Send(Result<PlaylistInfos>.Ok(new PlaylistInfos
             {
                 Id = playlist.Id,
@@ -45,14 +45,14 @@ namespace MyListen.Library.UseCases
 
         }
 
-        private Playlist ImportPlaylistWithMusics(Playlist playlist, Reference reference)
+        private Playlist ImportPlaylistWithSongs(Playlist playlist, Reference reference)
         {
             playlistStore.InsertPlaylist(playlist);
-            var importedMusics = musicImporter.ImportMusicsFromSource(reference);
-            foreach (var music in importedMusics)
+            var importedSongs = songImporter.ImportSongsFromSource(reference);
+            foreach (var song in importedSongs)
             {
-                musicStore.InsertMusic(music);
-                playlist.AddNewMusicId(music.Entity.Id);
+                songStore.InsertSong(song);
+                playlist.AddNewSongsId(song.Entity.Id);
             }
 
             playlistStore.UpdatePlaylist(playlist);

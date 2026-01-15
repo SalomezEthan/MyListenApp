@@ -4,17 +4,17 @@ using MyListen.Song.UseCases;
 
 namespace MyListen.Song;
 
-public sealed class SongComposantFactory(IMusicStore musicStore)
+public sealed class SongComposantFactory(ISongStore songStore)
 {
-    readonly IMusicStore musicStore = musicStore;
+    readonly ISongStore songStore = songStore;
 
     public ChangeFavouriteState CreateChangeFavouriteState()
     {
-        return new ChangeFavouriteState(musicStore);
+        return new ChangeFavouriteState(songStore);
     }
 
-    public RenameMusic CreateRenameMusic()
+    public RenameSong CreateRenameSong()
     {
-        return new RenameMusic(musicStore);
+        return new RenameSong(songStore);
     }
 }

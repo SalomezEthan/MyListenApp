@@ -5,9 +5,9 @@ namespace MyListen.Player.Listeners
 {
     public sealed class SongEndedListener : Listener
     {
-        public SongEndedListener(IMusicPlayer musicPlayer)
+        public SongEndedListener(ISongPlayer songPlayer)
         {
-            musicPlayer.SongEnded += (s, e) =>
+            songPlayer.SongEnded += (s, e) =>
             {
                 OnNotified();
             };

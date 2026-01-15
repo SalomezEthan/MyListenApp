@@ -58,7 +58,7 @@
                     </Grid.RowDefinitions>
 
                     <Frame x:Name="PageContent" Padding="60 60 60 0"/>
-                    <uc:MusicPlayer ViewModel="{x:Bind playerViewModel}" Grid.Row="1"/>
+                    <uc:SongPlayer ViewModel="{x:Bind playerViewModel}" Grid.Row="1"/>
                 </Grid>
                 
             </NavigationView>

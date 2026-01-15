@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace MyListen.Library
 {
-    public sealed class LibraryComposantFactory(IPlaylistStore playlistStore, IMusicStore musicStore, IPlaylistImporter playlistImporter, IMusicImporter musicImporter)
+    public sealed class LibraryComposantFactory(IPlaylistStore playlistStore, ISongStore songStore, IPlaylistImporter playlistImporter, ISongImporter songImporter)
     {
         readonly IPlaylistStore playlistStore = playlistStore;
-        readonly IMusicStore musicStore = musicStore;
+        readonly ISongStore songStore = songStore;
         readonly IPlaylistImporter playlistImporter = playlistImporter;
-        readonly IMusicImporter musicImporter = musicImporter;
+        readonly ISongImporter songImporter = songImporter;
 
         public CollectPlaylistTrigger CreateCollectPlaylist() => new(playlistStore);
-        public ImportPlaylist CreateImportPlaylist() => new(playlistStore, musicStore, playlistImporter, musicImporter);
+        public ImportPlaylist CreateImportPlaylist() => new(playlistStore, songStore, playlistImporter, songImporter);
         
     }
 }
