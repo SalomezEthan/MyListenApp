@@ -78,6 +78,7 @@ namespace MyListenApp.ViewModels.Player
             this.playerService.PlaybackStateChanged += (s, e) =>
             {
                 IsPlaying = e;
+                App.BackgroundService.SetPlayState(e);
             };
 
             this.playerService.ShuffleStateChanged += (s, e) =>
@@ -91,8 +92,9 @@ namespace MyListenApp.ViewModels.Player
         public void PlayPreviousSong() => playerService.PlayPreviousSong();
         public void ChangeVolume(float volume) => playerService.ChangeVolume(volume);
 
-        public void ToggleShuffleOrder(Guid startMusicId)
+        public void ToggleShuffleOrder()
         {
+            Guid startMusicId = CurrentSong?.Id ?? Queue.First().Id;
             if (IsShuffled) playerService.OrderPlaybackQueue(startMusicId);
             else playerService.ShufflePlaybackQueue(startMusicId);
         }

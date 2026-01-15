@@ -11,6 +11,11 @@
 
     <Page.Resources>
         <converters:DurationToSmoothDurationConverter x:Key="SmoothDuration"/>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
     </Page.Resources>
 
     <Grid>
@@ -43,10 +48,6 @@
 
                 <Button x:Name="RenameButton">
                     <FontIcon Glyph="&#xE8AC;"/>
-                </Button>
-
-                <Button x:Name="ViewButton">
-                    <FontIcon Glyph="&#xE890;"/>
                 </Button>
             </StackPanel>
         </StackPanel>

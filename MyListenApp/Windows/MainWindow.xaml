@@ -16,7 +16,7 @@
 
     <Grid>
         <MediaPlayerElement x:Name="AnimatedBackground"
-                            Source="C:\Users\aisuh\Videos\Wallpaper\rei-at-the-shoreline-neon-genesis-evangelion-moewalls-com.mp4"
+                            Source="C:\Users\aisuh\Videos\Wallpaper\floating-cat.1920x1080.mp4"
                             Stretch="UniformToFill"
                             Grid.RowSpan="2"/>
 
