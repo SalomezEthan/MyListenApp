@@ -10,7 +10,7 @@ namespace MyListen.Common.DataTransfertObjects
         public required TimeSpan Duration { get; init; }
         public required bool IsLiked { get; init; }
 
-        public static MusicInfos FromMusicEntity(Music music)
+        public static MusicInfos FromMusicEntity(Entities.Song music)
         {
             return new MusicInfos
             {

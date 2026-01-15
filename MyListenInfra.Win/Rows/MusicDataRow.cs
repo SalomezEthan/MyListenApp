@@ -14,7 +14,7 @@ namespace MyListenInfra.Win.Rows
         public required bool IsLiked { get; init; }
         public required string Reference { get; init; }
 
-        public static MusicDataRow FromEntity(Music music, string reference)
+        public static MusicDataRow FromEntity(Song music, string reference)
         {
             return new MusicDataRow
             {
@@ -27,9 +27,9 @@ namespace MyListenInfra.Win.Rows
             };
         }
 
-        public Music ToEntity()
+        public Song ToEntity()
         {
-            return new Music(
+            return new Song(
                 Id,
                 Name.FromString(Title).GetValue(),
                 Name.FromString(Artist).GetValue(),

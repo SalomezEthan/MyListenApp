@@ -12,7 +12,7 @@ namespace MyListen.Player.Listeners
         {
             queue.CurrentMusicIdChanged += (s, e) =>
             {
-                Music music = musicStore.GetByMusicId(e);
+                Common.Entities.Song music = musicStore.GetByMusicId(e);
                 var infos = MusicInfos.FromMusicEntity(music);
                 OnNotified(infos);
             };

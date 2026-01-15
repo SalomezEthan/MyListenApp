@@ -89,17 +89,6 @@ namespace MyListenApp.ViewModels.Player
 
             musicChangedListener.Notified += (s, newMusic) =>
             {
-                if (CurrentSong is not null) Queue.Remove(CurrentSong);
-
-                var newCurrentMusic = songViewModelMap.GetSafeWithSongInfos(newMusic);
-                while (Queue.First() != newCurrentMusic && Queue.Count > 0)
-                {
-                    var first = Queue.First();
-                    Queue.Remove(first);
-                    if (IsLooped) Queue.Add(first);
-                }
-
-                
                 CurrentSong = songViewModelMap.GetSafeWithSongInfos(newMusic);
             };
 

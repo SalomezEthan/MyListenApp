@@ -13,7 +13,7 @@ namespace MyListen.Song.UseCases
 
         public override void Execute(ChangeFavouriteStateRequest request)
         {
-            Music music = musicStore.GetByMusicId(request.MusicId);
+            Common.Entities.Song music = musicStore.GetByMusicId(request.MusicId);
             if (!request.IsFavourite) music.Like();
             else music.Dislike();
             musicStore.UpdateMusic(music);

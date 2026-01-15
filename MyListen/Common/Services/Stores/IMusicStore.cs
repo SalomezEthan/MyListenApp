@@ -6,12 +6,12 @@ namespace MyListen.Common.Services.Stores
 {
     public interface IMusicStore
     {
-        Music GetByMusicId(Guid id);
-        IReadOnlyList<Music> GetMusicsFromIds(Guid[] ids);
-        IReadOnlyList<Music> CollectAll();
+        Entities.Song GetByMusicId(Guid id);
+        IReadOnlyList<Entities.Song> GetMusicsFromIds(Guid[] ids);
+        IReadOnlyList<Entities.Song> CollectAll();
 
         void InsertMusic(ImportedMusic musicImported);
-        void UpdateMusic(Music music);
+        void UpdateMusic(Entities.Song music);
 
         Reference GetReferenceById(Guid id);
         bool CheckIfMusicExistsByReference(Reference musicReference);

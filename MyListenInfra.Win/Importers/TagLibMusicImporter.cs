@@ -28,7 +28,7 @@ namespace MyListenInfra.Win.Importers
             var properties = file.Properties;
 
             
-            var music =  new Music(
+            var music =  new Song(
                 Guid.NewGuid(),
                 Name.FromString(tags.Title ?? Path.GetFileNameWithoutExtension(file.Name)).GetValue(),
                 Name.FromString(tags.FirstPerformer ?? "Unknown").GetValue(),

@@ -18,9 +18,9 @@ namespace MyListenInfra.Win
             this.musicCollection = db.GetCollection<MusicDataRow>();
         }
 
-        public IReadOnlyList<Music> GetMusicsFromIds(Guid[] ids)
+        public IReadOnlyList<Song> GetMusicsFromIds(Guid[] ids)
         {
-            List<Music> musics = [];
+            List<Song> musics = [];
             foreach (Guid id in ids)
             {
                 musics.Add(GetByMusicId(id));
@@ -29,13 +29,13 @@ namespace MyListenInfra.Win
             return musics;
         }
 
-        public Music GetByMusicId(Guid id)
+        public Song GetByMusicId(Guid id)
         {
             var row = musicCollection.FindById(id);
             return row.ToEntity();
         }
 
-        public IReadOnlyList<Music> CollectAll()
+        public IReadOnlyList<Song> CollectAll()
         {
             var all = musicCollection.FindAll();
             return [.. all.Select(row => row.ToEntity())];
@@ -47,7 +47,7 @@ namespace MyListenInfra.Win
             musicCollection.Insert(newRow);
         }
 
-        public void UpdateMusic(Music music)
+        public void UpdateMusic(Song music)
         {
             string reference = musicCollection.FindById(music.Id).Reference;
             var row = MusicDataRow.FromEntity(music, reference);

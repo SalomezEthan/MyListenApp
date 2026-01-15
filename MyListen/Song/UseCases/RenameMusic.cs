@@ -16,7 +16,7 @@ public sealed class RenameMusic(IMusicStore musicStore)
 
     public override void Execute(RenameMusicRequest request)
     {
-        Music music = musicStore.GetByMusicId(request.MusicId);
+        Common.Entities.Song music = musicStore.GetByMusicId(request.MusicId);
         Result<Name> newName = Name.FromString(request.NewName);
         if (!newName.IsSuccess)
         {

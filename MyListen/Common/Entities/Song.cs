@@ -4,14 +4,14 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.Common.Entities
 {
-    public class Music : Entity
+    public class Song : Entity
     {
         public Name Title { get; private set; }
         public Name Artist { get; private set; }
         public TimeSpan Duration { get; private set; }
         public bool IsFavourite { get; private set; }
 
-        public Music(Guid id, Name title, Name artist, TimeSpan duration, bool isLiked)
+        public Song(Guid id, Name title, Name artist, TimeSpan duration, bool isLiked)
         : base(id)
         {
 
