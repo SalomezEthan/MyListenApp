@@ -1,7 +1,6 @@
 ﻿using MyListen.Common.Services;
 using MyListen.Common.ValueObjects;
 using NAudio.Wave;
-using System.Diagnostics;
 
 namespace MyListenInfra.Win
 {
