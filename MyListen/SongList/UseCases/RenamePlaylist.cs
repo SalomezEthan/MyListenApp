@@ -9,14 +9,14 @@ namespace MyListen.SongList.UseCases;
 
 public sealed record RenamePlaylistRequest(Guid PlaylistId, string NewName);
 
-public sealed class RenamePlaylist(IPlaylistStore playlistStore) 
+public sealed class RenamePlaylist(IPlaylistRepository playlistStore) 
 : UseCase<RenamePlaylistRequest, Result<string>>
 {
-    readonly IPlaylistStore playlistStore = playlistStore;
+    readonly IPlaylistRepository playlistStore = playlistStore;
 
     public override void Execute(RenamePlaylistRequest request)
     {
-        Playlist playlist = playlistStore.GetFromPlaylistId(request.PlaylistId);
+        Playlist playlist = playlistStore.GetPlaylistById(request.PlaylistId);
         Result<Name> newName = Name.FromString(request.NewName);
         if (!newName.IsSuccess)
         {

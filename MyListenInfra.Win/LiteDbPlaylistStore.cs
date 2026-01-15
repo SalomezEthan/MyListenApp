@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace MyListenInfra.Win
 {
-    internal sealed class LiteDbPlaylistStore : IPlaylistStore
+    internal sealed class LiteDbPlaylistStore : IPlaylistRepository
     {
         readonly LiteDatabase db;
         readonly ILiteCollection<PlaylistDataRow> collection;
@@ -19,7 +19,7 @@ namespace MyListenInfra.Win
             this.collection = db.GetCollection<PlaylistDataRow>();
         }
 
-        public Playlist GetFromPlaylistId(Guid Id)
+        public Playlist GetPlaylistById(Guid Id)
         {
             PlaylistDataRow row = collection.FindById(Id);
             return row.ToEntity();
@@ -31,7 +31,7 @@ namespace MyListenInfra.Win
             return [.. rows.Select(row => row.ToEntity())];
         }
 
-        public void InsertPlaylist(Playlist playlist, bool isReadOnly = false)
+        public void AddPlaylist(Playlist playlist, bool isReadOnly = false)
         {
             var row = PlaylistDataRow.FromEntity(playlist, isReadOnly);
             collection.Insert(row);
@@ -41,6 +41,11 @@ namespace MyListenInfra.Win
         {
             var updateRow = PlaylistDataRow.FromEntity(playlist, playlist.IsReadonly);
             collection.Update(updateRow);
+        }
+
+        public bool RemoveById(Guid playlistId)
+        {
+            return collection.Delete(playlistId);
         }
 
         public bool PlaylistExistsByName(Name name)

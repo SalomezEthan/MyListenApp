@@ -4,9 +4,9 @@ using MyListen.Song.UseCases;
 
 namespace MyListen.Song;
 
-public sealed class SongComposantFactory(ISongStore songStore)
+public sealed class SongComposantFactory(ISongRespository songStore)
 {
-    readonly ISongStore songStore = songStore;
+    readonly ISongRespository songStore = songStore;
 
     public ChangeFavouriteState CreateChangeFavouriteState()
     {

@@ -6,10 +6,10 @@ namespace MyListen.Song.UseCases
 {
     public sealed record ChangeFavouriteStateRequest(Guid SongId, bool IsFavourite);
 
-    public sealed class ChangeFavouriteState(ISongStore songStore)
+    public sealed class ChangeFavouriteState(ISongRespository songStore)
     : NoResponseUseCase<ChangeFavouriteStateRequest>
     {
-        readonly ISongStore songStore = songStore;
+        readonly ISongRespository songStore = songStore;
 
         public override void Execute(ChangeFavouriteStateRequest request)
         {

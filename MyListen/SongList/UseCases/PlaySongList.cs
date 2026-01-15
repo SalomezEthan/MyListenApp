@@ -9,17 +9,17 @@ namespace MyListen.SongList.UseCases
 {
     public sealed record PlaySongListRequest(Guid PlaylistId, Guid? StartSong = null);
 
-    public sealed class PlaySongList(IPlaylistStore playlistStore, PlaybackQueue playbackQueue, ISongStore songStore, ISongPlayer songPlayer)
+    public sealed class PlaySongList(IPlaylistRepository playlistStore, PlaybackQueue playbackQueue, ISongRespository songStore, ISongPlayer songPlayer)
     : UseCase<PlaySongListRequest>
     {
-        readonly IPlaylistStore playlistStore = playlistStore;
+        readonly IPlaylistRepository playlistStore = playlistStore;
         readonly PlaybackQueue playbackQueue = playbackQueue;
-        readonly ISongStore songStore = songStore;
+        readonly ISongRespository songStore = songStore;
         readonly ISongPlayer songPlayer = songPlayer;
 
         public override void Execute(PlaySongListRequest request)
         {
-            Playlist playlist = playlistStore.GetFromPlaylistId(request.PlaylistId);
+            Playlist playlist = playlistStore.GetPlaylistById(request.PlaylistId);
             Result<EnqueueList> enqueueList = EnqueueList.FromSongs(playlist.SongIds);
             if (!enqueueList.IsSuccess)
             {
@@ -33,7 +33,7 @@ namespace MyListen.SongList.UseCases
             Guid startSongId = request.StartSong ?? songList.Songs[0];
             playbackQueue.MoveTo(startSongId);
 
-            Reference songReference = songStore.GetReferenceById(startSongId);
+            Reference songReference = songStore.GetSongReferenceById(startSongId);
             songPlayer.PlaySong(songReference);
 
             Send(Result.Ok());

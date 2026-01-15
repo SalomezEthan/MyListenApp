@@ -8,7 +8,7 @@ namespace MyListen.Player.Listeners
 {
     public sealed class SongChangedListener : Listener<SongInfos>
     {
-        public SongChangedListener(PlaybackQueue queue, ISongStore songStore)
+        public SongChangedListener(PlaybackQueue queue, ISongRespository songStore)
         {
             queue.CurrentSongIdChanged += (s, e) =>
             {

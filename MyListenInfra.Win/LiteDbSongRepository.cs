@@ -7,18 +7,18 @@ using MyListenInfra.Win.Rows;
 
 namespace MyListenInfra.Win
 {
-    internal class LiteDbSongStore : ISongStore
+    internal class LiteDbSongRepository : ISongRespository
     {
         readonly LiteDatabase db;
         readonly ILiteCollection<SongDataRow> songCollection;
-        public LiteDbSongStore(string sourcePath)
+        public LiteDbSongRepository(string sourcePath)
         {
             string fileDbPath = Path.Combine(sourcePath, "song.db");
             this.db = new LiteDatabase(fileDbPath);
             this.songCollection = db.GetCollection<SongDataRow>();
         }
 
-        public IReadOnlyList<Song> GetSongsFromIds(Guid[] ids)
+        public IReadOnlyList<Song> GetSongsByIds(Guid[] ids)
         {
             List<Song> songs = [];
             foreach (Guid id in ids)
@@ -35,16 +35,27 @@ namespace MyListenInfra.Win
             return row.ToEntity();
         }
 
+        public IReadOnlyList<Song> CollectFavouriteSongs()
+        {
+            var rows = songCollection.Find(musicRow => musicRow.IsLiked);
+            return [.. rows.Select(row => row.ToEntity())];
+        }
+
         public IReadOnlyList<Song> CollectAll()
         {
             var all = songCollection.FindAll();
             return [.. all.Select(row => row.ToEntity())];
         }
 
-        public void InsertSong(ImportedSong importedSong)
+        public void AddSong(ImportedSong importedSong)
         {
             var newRow = SongDataRow.FromEntity(importedSong.Entity, importedSong.SongReference.ToString());
             songCollection.Insert(newRow);
+        }
+
+        public bool RemoveSongById(Guid songId)
+        {
+            return songCollection.Delete(songId);
         }
 
         public void UpdateSong(Song song)
@@ -54,7 +65,7 @@ namespace MyListenInfra.Win
             songCollection.Update(row);
         }
 
-        public Reference GetReferenceById(Guid id)
+        public Reference GetSongReferenceById(Guid id)
         {
             var row = songCollection.FindById(id);
             return Reference.FromString(row.Reference).GetValue();
@@ -63,6 +74,13 @@ namespace MyListenInfra.Win
         public bool SongExistsByReference(Reference songReference)
         {
             return songCollection.Exists(song =>  songReference == song.Reference);
+        }
+
+        
+
+        public string SearchSongsByName(string chars)
+        {
+            throw new NotImplementedException();
         }
     }
 }

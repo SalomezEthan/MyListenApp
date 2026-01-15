@@ -7,10 +7,10 @@ namespace MyListen.Library.UseCases;
 
 public sealed record CollectedPlaylist(IReadOnlyList<PlaylistInfos> Playlists);
 
-public sealed class CollectPlaylistTrigger(IPlaylistStore playlistStore)
+public sealed class CollectPlaylistTrigger(IPlaylistRepository playlistStore)
 : TriggerUseCase<CollectedPlaylist>
 {
-    readonly IPlaylistStore playlistCollector = playlistStore;
+    readonly IPlaylistRepository playlistCollector = playlistStore;
 
     public override void Execute()
     {

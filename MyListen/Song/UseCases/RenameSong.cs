@@ -9,10 +9,10 @@ namespace MyListen.Song.UseCases;
 
 public sealed record RenameSongRequest(Guid SongId, string NewName);
 
-public sealed class RenameSong(ISongStore songStore)
+public sealed class RenameSong(ISongRespository songStore)
 : UseCase<RenameSongRequest, Result<string>>
 {
-    readonly ISongStore songStore = songStore;
+    readonly ISongRespository songStore = songStore;
 
     public override void Execute(RenameSongRequest request)
     {

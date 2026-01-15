@@ -4,16 +4,21 @@ using MyListen.Common.ValueObjects;
 
 namespace MyListen.Common.Services.Stores
 {
-    public interface ISongStore
+    public interface ISongRespository
     {
         Entities.Song GetBySongId(Guid songId);
-        IReadOnlyList<Entities.Song> GetSongsFromIds(Guid[] songIds);
+        IReadOnlyList<Entities.Song> GetSongsByIds(Guid[] songIds);
+
+        IReadOnlyList<Entities.Song> CollectFavouriteSongs();
         IReadOnlyList<Entities.Song> CollectAll();
 
-        void InsertSong(ImportedSong songImported);
+        void AddSong(ImportedSong songImported);
         void UpdateSong(Entities.Song song);
+        bool RemoveSongById(Guid songId);
 
-        Reference GetReferenceById(Guid songId);
+        Reference GetSongReferenceById(Guid songId);
         bool SongExistsByReference(Reference songReference);
+
+        string SearchSongsByName(string chars);
     }
 }

@@ -10,11 +10,11 @@ namespace MyListen.Library.UseCases
 {
     public sealed record ImportPlaylistRequest(string Reference);
 
-    public sealed class ImportPlaylist(IPlaylistStore playlistStore, ISongStore songStore, IPlaylistImporter playlistImporter, ISongImporter songImporter)
+    public sealed class ImportPlaylist(IPlaylistRepository playlistStore, ISongRespository songStore, IPlaylistImporter playlistImporter, ISongImporter songImporter)
     : UseCase<ImportPlaylistRequest, Result<PlaylistInfos>>
     {
-        readonly IPlaylistStore playlistStore = playlistStore;
-        readonly ISongStore songStore = songStore;
+        readonly IPlaylistRepository playlistStore = playlistStore;
+        readonly ISongRespository songStore = songStore;
         readonly IPlaylistImporter playlistImporter = playlistImporter;
         readonly ISongImporter songImporter = songImporter;
 
@@ -47,11 +47,11 @@ namespace MyListen.Library.UseCases
 
         private Playlist ImportPlaylistWithSongs(Playlist playlist, Reference reference)
         {
-            playlistStore.InsertPlaylist(playlist);
+            playlistStore.AddPlaylist(playlist);
             var importedSongs = songImporter.ImportSongsFromSource(reference);
             foreach (var song in importedSongs)
             {
-                songStore.InsertSong(song);
+                songStore.AddSong(song);
                 playlist.AddNewSongsId(song.Entity.Id);
             }
 

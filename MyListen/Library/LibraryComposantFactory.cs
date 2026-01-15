@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace MyListen.Library
 {
-    public sealed class LibraryComposantFactory(IPlaylistStore playlistStore, ISongStore songStore, IPlaylistImporter playlistImporter, ISongImporter songImporter)
+    public sealed class LibraryComposantFactory(IPlaylistRepository playlistStore, ISongRespository songStore, IPlaylistImporter playlistImporter, ISongImporter songImporter)
     {
-        readonly IPlaylistStore playlistStore = playlistStore;
-        readonly ISongStore songStore = songStore;
+        readonly IPlaylistRepository playlistStore = playlistStore;
+        readonly ISongRespository songStore = songStore;
         readonly IPlaylistImporter playlistImporter = playlistImporter;
         readonly ISongImporter songImporter = songImporter;
 

@@ -5,11 +5,11 @@ using MyListen.Player.UseCases;
 
 namespace MyListen.Player
 {
-    public sealed class PlayerComposantFactory(PlaybackQueue queue, ISongPlayer songPlayer, ISongStore songStore)
+    public sealed class PlayerComposantFactory(PlaybackQueue queue, ISongPlayer songPlayer, ISongRespository songStore)
     {
         readonly PlaybackQueue queue = queue;
         readonly ISongPlayer songPlayer = songPlayer;
-        readonly ISongStore songStore = songStore;
+        readonly ISongRespository songStore = songStore;
 
         public ChangePlaybackState CreateChangePlaybackState() => new(songPlayer);
         public NextSongTrigger CreateNextSongTrigger() => new(queue, songPlayer, songStore);

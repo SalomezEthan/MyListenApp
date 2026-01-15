@@ -9,9 +9,9 @@ namespace MyListenInfra.Win
     {
         public ISongPlayer Player { get; } = new NAudioSongPlayer();
 
-        public ISongStore SongStore { get; } = new LiteDbSongStore(sourcePath);
+        public ISongRespository SongStore { get; } = new LiteDbSongRepository(sourcePath);
 
-        public IPlaylistStore PlaylistStore { get; } = new LiteDbPlaylistStore(sourcePath);
+        public IPlaylistRepository PlaylistStore { get; } = new LiteDbPlaylistStore(sourcePath);
 
         public ISongImporter SongImporter { get; } = new TagLibSongImporter();
 
