@@ -3,16 +3,15 @@ using MyListen.Song;
 
 namespace MyListenApp.ViewModels.Song
 {
-    internal sealed class SongViewModelFactory(SongComposantFactory composantFactory)
+    internal sealed class SongViewModelFactory(SongServiceFactory composantFactory)
     {
-        readonly SongComposantFactory composantFactory = composantFactory;
+        readonly SongServiceFactory serviceFactory = composantFactory;
 
         public SongViewModel CreateViewModel(SongInfos infos)
         {
             return new SongViewModel(
                 infos,
-                composantFactory.CreateRenameSong(),
-                composantFactory.CreateChangeFavouriteState()
+                serviceFactory.CreateSongService()
             );
         }
     }

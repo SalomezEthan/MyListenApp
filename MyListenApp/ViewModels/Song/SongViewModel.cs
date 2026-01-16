@@ -1,7 +1,8 @@
 ﻿using MyArchitecture.PresenterLayer;
 using MyListen.Common.DataTransfertObjects;
-using MyListen.Song.UseCases;
+using MyListen.Song;
 using System;
+using System.Windows.Input;
 
 namespace MyListenApp.ViewModels.Song
 {
@@ -37,42 +38,21 @@ namespace MyListenApp.ViewModels.Song
             set => SetValue(ref _isLiked, value);
         }
 
-        readonly RenameSong renameSong;
-        readonly ChangeFavouriteState changeFavouriteState;
+        public ICommand ToggleFavouriteCommand { get; }
+        public ICommand RenameCommand { get; }
 
-        public SongViewModel(SongInfos infos, RenameSong renameSong, ChangeFavouriteState changeFavouriteState)
+
+        readonly SongService songService;
+
+        public SongViewModel(SongInfos infos, SongService songService)
         {
             Id = infos.Id;
             _title = infos.Title;
             _artist = infos.Artist;
             _duration = infos.Duration;
             _isLiked = infos.IsLiked;
-            
-            this.renameSong = renameSong;
-            this.renameSong.ResultSended += (s, newNameResult) =>
-            {
-                if (newNameResult.IsSuccess)
-                {
-                    Title = newNameResult.GetValue();
-                }
-            };
 
-            this.changeFavouriteState = changeFavouriteState;
-
-            
-        }
-
-        public void Rename(string newName)
-        {
-            var request = new RenameSongRequest(Id, newName);
-            renameSong.Execute(request);
-        }
-
-        void ToggleFavourite()
-        {
-            var request = new ChangeFavouriteStateRequest(Id, !IsLiked);
-            changeFavouriteState.Execute(request);
-            IsLiked = !IsLiked;
+            this.songService = songService;
         }
 
     }
