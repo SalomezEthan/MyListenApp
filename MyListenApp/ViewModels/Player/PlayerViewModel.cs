@@ -1,12 +1,15 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Documents;
+using MyArchitecture;
 using MyArchitecture.PresenterLayer;
 using MyListen.Player;
+using MyListenApp.Services;
 using MyListenApp.ViewModels.Song;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Input;
 
 namespace MyListenApp.ViewModels.Player
 {
@@ -58,12 +61,18 @@ namespace MyListenApp.ViewModels.Player
             set => SetValue(ref _isLooped, value);
         }
 
+        public ICommand TogglePlayPauseCommand { get; }
+        public ICommand PreviousCommand { get; }
+        public ICommand NextCommand { get; }
+        public ICommand ToggleShuffleCommand { get; }
+        public ICommand ToggleLoopCommand { get; }
+
 
         readonly PlayerService playerService;
 
-        public PlayerViewModel(PlayerService playerService, SongViewModelMap songViewModelMap)
+        public PlayerViewModel(PlayerService player, SongViewModelMap songViewModelMap)
         {
-            this.playerService = playerService;
+            this.playerService = player;
             this.playerService.SongChanged += (s, e) =>
             {
                 CurrentSong = songViewModelMap.GetSafeWithSongInfos(e);
@@ -85,18 +94,28 @@ namespace MyListenApp.ViewModels.Player
             {
                 IsShuffled = e;
             };
-        }
 
-        public void TogglePlayPause() => playerService.SwitchPlaybackState(IsPlaying);
-        public void PlayNextSong() => playerService.PlayNextSong();
-        public void PlayPreviousSong() => playerService.PlayPreviousSong();
-        public void ChangeVolume(float volume) => playerService.ChangeVolume(volume);
+            TogglePlayPauseCommand = new RelayCommand(() => playerService.SwitchPlaybackState(IsPlaying));
 
-        public void ToggleShuffleOrder()
-        {
-            Guid startMusicId = CurrentSong?.Id ?? Queue.First().Id;
-            if (IsShuffled) playerService.OrderPlaybackQueue(startMusicId);
-            else playerService.ShufflePlaybackQueue(startMusicId);
+            PreviousCommand = new RelayCommand(() =>
+            {
+                Result result = playerService.PlayPreviousSong();
+                if (!result.IsSuccess) Debug.WriteLine(result.GetFailure());
+            });
+
+            NextCommand = new RelayCommand(() =>
+            {
+                Result result = playerService.PlayNextSong();
+                if (!result.IsSuccess) Debug.WriteLine(result.GetFailure());
+            });
+
+            ToggleShuffleCommand = new RelayCommand(() =>
+            {
+                Guid startMusicId = CurrentSong?.Id ?? Queue.First().Id;
+                if (IsShuffled) playerService.OrderPlaybackQueue(startMusicId);
+                else playerService.ShufflePlaybackQueue(startMusicId);
+            });
+
         }
     }
 

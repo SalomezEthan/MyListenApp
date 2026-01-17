@@ -1,6 +1,8 @@
-﻿using MyArchitecture.PresenterLayer;
+﻿using MyArchitecture;
+using MyArchitecture.PresenterLayer;
 using MyListen.Common.DataTransfertObjects;
 using MyListen.Song;
+using MyListenApp.Services;
 using System;
 using System.Windows.Input;
 
@@ -14,28 +16,35 @@ namespace MyListenApp.ViewModels.Song
         public string Title
         {
             get => _title;
-            set => SetValue(ref _title, value);
+            private set => SetValue(ref _title, value);
+        }
+
+        string _newTitle;
+        public string NewTitle
+        {
+            get => _newTitle;
+            set => SetValue(ref _newTitle, value);
         }
 
         string _artist;
         public string Artist
         {
             get => _artist;
-            set => SetValue(ref _artist, value);
+            private set => SetValue(ref _artist, value);
         }
 
         TimeSpan _duration;
         public TimeSpan Duration
         {
             get => _duration;
-            set => SetValue(ref _duration, value);
+            private set => SetValue(ref _duration, value);
         }
 
         bool _isLiked;
         public bool IsLiked
         {
             get => _isLiked;
-            set => SetValue(ref _isLiked, value);
+            private set => SetValue(ref _isLiked, value);
         }
 
         public ICommand ToggleFavouriteCommand { get; }
@@ -51,8 +60,20 @@ namespace MyListenApp.ViewModels.Song
             _artist = infos.Artist;
             _duration = infos.Duration;
             _isLiked = infos.IsLiked;
-
             this.songService = songService;
+
+            ToggleFavouriteCommand = new RelayCommand(execute: () =>
+            {
+                IsLiked = !IsLiked;
+                songService.ChangeFavouriteState(Id, IsLiked);
+            });
+
+            RenameCommand = new RelayCommand(execute: () =>
+            {
+                Result result = songService.RenameSong(Id, NewTitle);
+                if (result.IsSuccess) Title = NewTitle;
+                NewTitle = string.Empty;
+            });
         }
 
     }
