@@ -117,6 +117,11 @@ namespace MyListenApp.ViewModels.Player
             });
 
         }
+
+        void ChangeVolume(float volume)
+        {
+            playerService.ChangeVolume(volume);
+        }
     }
 
 }

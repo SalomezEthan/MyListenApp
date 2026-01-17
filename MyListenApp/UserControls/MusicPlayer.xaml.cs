@@ -42,34 +42,4 @@ internal sealed partial class SongPlayer : UserControl
             DataContext = ViewModel;
         }
     }
-
-    private void PreviousButton_Click(object sender, RoutedEventArgs e)
-    {
-        ViewModel?.PlayPreviousSong();
-    }
-
-    private void PlayButton_Click(object sender, RoutedEventArgs e)
-    {
-        ViewModel?.TogglePlayPause();
-    }
-
-    private void NextButton_Click(object sender, RoutedEventArgs e)
-    {
-        ViewModel?.PlayNextSong();
-    }
-
-    private void ShuffleButton_Click(object sender, RoutedEventArgs e)
-    {
-        ViewModel?.ToggleShuffleOrder();
-    }
-
-    private void LoopButton_Click(object sender, RoutedEventArgs e)
-    {
-       
-    }
-
-    private void LikeSongButton_Click(object sender, RoutedEventArgs e)
-    {
-        
-    }
 }

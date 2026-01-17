@@ -40,41 +40,8 @@ namespace MyListenApp.Pages
                 viewModel = songListVM;
                 this.DataContext = viewModel;
 
-                viewModel.CollectSongs();
+                viewModel.RefreshSongsCommand.Execute(null);
             }
-        }
-
-        private void PlayAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            viewModel?.PlaySongList();
-        }
-
-        private void ShuffleAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void RenameFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void ImportFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem is SongViewModel songVM)
-            {
-                viewModel?.PlaySongList(songVM.Id);
-            }
-        }
-
-        private void SongListViewItem_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
         }
     }
 }

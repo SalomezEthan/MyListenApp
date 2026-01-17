@@ -43,28 +43,5 @@ namespace MyListenApp.UserControls.SongList
                 DataContext = value;
             }
         }
-
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void LikeButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void RenameButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ViewButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is FrameworkElement fe && fe.DataContext is SongViewModel svm)
-            {
-                App.NavigationService.NavigateTo(typeof(SongPage), svm);
-            }
-        }
     }
 }

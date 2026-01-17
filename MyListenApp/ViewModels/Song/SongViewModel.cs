@@ -19,7 +19,7 @@ namespace MyListenApp.ViewModels.Song
             private set => SetValue(ref _title, value);
         }
 
-        string _newTitle;
+        string _newTitle = string.Empty;
         public string NewTitle
         {
             get => _newTitle;
@@ -53,14 +53,14 @@ namespace MyListenApp.ViewModels.Song
 
         readonly SongService songService;
 
-        public SongViewModel(SongInfos infos, SongService songService)
+        public SongViewModel(SongInfos infos, SongService service)
         {
             Id = infos.Id;
             _title = infos.Title;
             _artist = infos.Artist;
             _duration = infos.Duration;
             _isLiked = infos.IsLiked;
-            this.songService = songService;
+            this.songService = service;
 
             ToggleFavouriteCommand = new RelayCommand(execute: () =>
             {
