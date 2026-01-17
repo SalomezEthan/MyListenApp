@@ -1,10 +1,13 @@
-﻿using MyArchitecture.PresenterLayer;
+﻿using MyArchitecture;
+using MyArchitecture.PresenterLayer;
 using MyListen.Common.DataTransfertObjects;
-using MyListen.SongList.UseCases;
+using MyListen.SongList;
+using MyListenApp.Services;
 using MyListenApp.ViewModels.Song;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace MyListenApp.ViewModels.SongList
 {
@@ -33,50 +36,32 @@ namespace MyListenApp.ViewModels.SongList
             set => SetValue(ref _songs, value);
         }
 
-        readonly CollectSongs collectSongs;
-        readonly PlaySongList playSongList;
-        readonly RenameSongList renameSongList;
+        public ICommand RefreshSongsCommand { get; }
+        public ICommand PlayPlaylistCommand { get; }
 
-        internal SongListViewModel(SongListInfos infos, CollectSongs collectSongs, PlaySongList playSongList, RenameSongList renameSongList, SongViewModelMap songViewModelMap)
+        readonly SongListService songListService;
+
+        internal SongListViewModel(SongListInfos infos, SongListService service, SongViewModelMap songViewModelMap)
         {
             this.Id = infos.Id;
             this._name = infos.Name;
             this._count = infos.Count;
 
-            this.collectSongs = collectSongs;
-            this.collectSongs.ResultSended += (s, e) =>
+            this.songListService = service;
+
+            RefreshSongsCommand = new RelayCommand(() =>
             {
-                Songs = [.. e.CollectedSongs.Select(songViewModelMap.GetSafeWithSongInfos)];
-            };
+                var songsInfos = songListService.CollectSongs(Id);
+                var songViewModels = from songInfos in songsInfos
+                                     select songViewModelMap.GetSafeWithSongInfos(songInfos);
+                Songs = new ObservableCollection<SongViewModel>(songViewModels);
+                Count = Songs.Count;
+            });
 
-            this.playSongList = playSongList;
-
-            this.renameSongList = renameSongList;
-            this.renameSongList.ResultSended += (s, e) =>
+            PlayPlaylistCommand = new RelayCommand(() =>
             {
-                if (e.IsSuccess)
-                {
-                    Name = e.GetValue();
-                }
-            };
-        }
-
-        public void CollectSongs()
-        {
-            var request = new CollectSongsRequest(Id);
-            collectSongs.Execute(request);
-        }
-
-        public void PlaySongList(Guid? songId = null)
-        {
-            var request = new PlaySongListRequest(Id, songId);
-            playSongList.Execute(request);
-        }
-
-        public void Rename(string newName)
-        {
-            var request = new RenameSongListRequest(Id, newName);
-            renameSongList.Execute(request);
+                Result result = songListService.PlaySongList(Id);
+            });
         }
     }
 }
