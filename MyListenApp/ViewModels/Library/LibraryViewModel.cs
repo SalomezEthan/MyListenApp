@@ -1,8 +1,10 @@
 ﻿using MyArchitecture.PresenterLayer;
-using MyListen.Library.UseCases;
+using MyListen.Library;
+using MyListenApp.Services;
 using MyListenApp.ViewModels.SongList;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace MyListenApp.ViewModels.Library
 {
@@ -16,33 +18,26 @@ namespace MyListenApp.ViewModels.Library
             set => SetValue(ref _songLists, value);
         }
 
-        readonly CollectSongList songListRepo;
-        readonly ImportSongList songListImporter;
-        public LibraryViewModel(CollectSongList songListRepo, ImportSongList songListImporter, SongListViewModelFactory songListFactory)
+        readonly LibraryService libraryService;
+        readonly SongListViewModelFactory songListViewModelFactory;
+        public LibraryViewModel(LibraryService service, SongListViewModelFactory songListFactory)
         {
-            this.songListRepo = songListRepo;
-            this.songListRepo.ResultSended += (s, e) =>
-            {
-                SongLists = [.. e.SongLists.Select(songListFactory.CreateSongList)];
-            };
-
-            this.songListImporter = songListImporter;
-            this.songListImporter.ResultSended += (s, e) =>
-            {
-                if (e.IsSuccess)
-                {
-                    var newSongListViewModel = songListFactory.CreateSongList(e.GetValue());
-                    SongLists.Add(newSongListViewModel);
-                }
-            };
+            this.libraryService = service;
         }
 
-        public void CollectSongList() => songListRepo.Execute();
+        public void CollectSongLists()
+        {
+            var songLists = libraryService.CollectSongs();
+            SongLists = [.. songLists.Select(songListViewModelFactory.CreateSongList)];
+        }
 
         public void ImportSongList(string reference)
         {
-            var request = new ImportSongListRequest(reference);
-            songListImporter.Execute(request);
+            var importedSongList = libraryService.ImportSongList(reference);
+            if (importedSongList.IsSuccess)
+            {
+                SongLists.Add(songListViewModelFactory.CreateSongList(importedSongList.GetValue()));
+            }
         }
     }
 }

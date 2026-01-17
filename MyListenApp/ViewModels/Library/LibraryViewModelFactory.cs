@@ -3,16 +3,15 @@ using MyListenApp.ViewModels.SongList;
 
 namespace MyListenApp.ViewModels.Library
 {
-    internal sealed class LibraryViewModelFactory(LibraryComposantFactory composantFactory, SongListViewModelFactory factory)
+    internal sealed class LibraryViewModelFactory(LibraryServiceFactory composantFactory, SongListViewModelFactory factory)
     {
-        readonly LibraryComposantFactory composantFactory = composantFactory;
+        readonly LibraryServiceFactory composantFactory = composantFactory;
         readonly SongListViewModelFactory factory = factory;
 
         public LibraryViewModel CreateLibraryViewModel()
         {
             return new LibraryViewModel(
-                composantFactory.CreateCollectSongList(),
-                composantFactory.CreateImportSongList(),
+                composantFactory.CreateLibraryService(),
                 factory
             );
         }

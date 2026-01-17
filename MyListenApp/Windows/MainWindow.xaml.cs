@@ -1,6 +1,7 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using MyListenApp.Pages;
+using MyListenApp.Services;
 using MyListenApp.ViewModels.Library;
 using MyListenApp.ViewModels.Player;
 
@@ -15,6 +16,7 @@ namespace MyListenApp
         const int DEFAULT_HEIGHT = 640;
 
         readonly PlayerViewModel playerViewModel;
+        readonly NavigationService navigationService;
 
         public MainWindow(LibraryViewModel libViewModel, PlayerViewModel playerVm)
         {
@@ -24,8 +26,10 @@ namespace MyListenApp
             SetCustomPresenter();
             AnimatedBackground.MediaPlayer.IsLoopingEnabled = true;
             App.BackgroundService.SetPlayer(AnimatedBackground.MediaPlayer);
-            App.NavigationService.SetFrame(PageContent);
-            App.NavigationService.NavigateTo(typeof(LibraryPage), libViewModel);
+
+            this.navigationService = navigationService;
+            this.navigationService.SetFrame(PageContent);
+            this.navigationService.NavigateTo(libViewModel);
         }
 
         void SetCustomPresenter()
@@ -44,7 +48,7 @@ namespace MyListenApp
 
         private void NavView_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
         {
-            App.NavigationService.NavigateBack();
+            navigationService.NavigateBack();
         }
     }
 }

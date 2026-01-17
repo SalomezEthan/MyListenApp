@@ -56,7 +56,7 @@ namespace MyListenApp
             IExternServiceCompositionRoot externServices = new WinInfraCompositionRoot(appPath);
             var song = new SongServiceFactory(externServices.SongRepo);
             var songList = new SongListComposantFactory(externServices.SongListRepo, externServices.SongRepo, playbackQueue, externServices.Player);
-            var library = new LibraryComposantFactory(externServices.SongListRepo, externServices.SongRepo, externServices.SongListImporter, externServices.SongImporter);
+            var library = new LibraryServiceFactory(externServices.SongListRepo, externServices.SongRepo, externServices.SongListImporter, externServices.SongImporter);
             var player = new MyListen.Player.PlayerServiceFactory(playbackQueue, externServices.Player, externServices.SongRepo);
 
             var songVMFactory = new SongViewModelFactory(song);

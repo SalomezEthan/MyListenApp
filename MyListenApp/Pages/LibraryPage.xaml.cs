@@ -41,7 +41,7 @@ namespace MyListenApp.Pages
                 viewModel = libVm;
                 this.DataContext = viewModel;
 
-                this.viewModel.CollectSongList();
+                this.viewModel.CollectSongLists();
             }
         }
 
