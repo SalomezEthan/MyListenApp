@@ -1,7 +1,6 @@
 ﻿using MyListen.Common.Entities;
 using MyListen.Common.Services;
 using MyListen.Common.Services.Stores;
-using MyListen.SongList.UseCases;
 
 namespace MyListen.SongList
 {
@@ -10,20 +9,11 @@ namespace MyListen.SongList
         readonly ISongListRepository songListRepo = songListRepo;
         readonly ISongRespository songRepo = songRepo;
         readonly PlaybackQueue playbackQueue = playbackQueue;
+        readonly ISongPlayer songPlayer = songPlayer;
 
-        public CollectSongs CreateCollectSongs()
+        public SongListService CreateSongListService()
         {
-            return new CollectSongs(songRepo, songListRepo);
-        }
-
-        public PlaySongList CreatePlaySongList()
-        {
-            return new PlaySongList(songListRepo, playbackQueue, songRepo, songPlayer);
-        }
-
-        public RenameSongList CreateRenameSongList()
-        {
-            return new RenameSongList(songListRepo);
+            return new SongListService(songRepo, songListRepo, playbackQueue, songPlayer);
         }
     }
 }
