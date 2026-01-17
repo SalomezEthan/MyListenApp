@@ -33,7 +33,6 @@
         <ListView ItemsSource="{Binding Songs}"
                   SelectionMode="None"
                   IsItemClickEnabled="True"
-                  ItemClick="ListView_ItemClick"
                   Grid.Row="1">
             <ListView.Header>
                 <Grid ColumnSpacing="8">

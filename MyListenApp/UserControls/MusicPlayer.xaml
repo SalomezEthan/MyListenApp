@@ -50,29 +50,29 @@
                     VerticalAlignment="Center"
                     Spacing="8">
             <Button x:Name="PreviousButton"
-                    Click="PreviousButton_Click">
+                    Command="{Binding PreviousCommand}">
                 <FontIcon Glyph="&#xF8AC;" />
             </Button>
 
             <Button x:Name="PlayButton"
-                    Click="PlayButton_Click">
+                    Command="{Binding TogglePlayPauseCommand}">
                 <FontIcon Glyph="{Binding IsPlaying, Converter={StaticResource BoolToPlayIconConverter}}" />
             </Button>
 
             <Button x:Name="NextButton"
-                    Click="NextButton_Click">
+                    Command="{Binding NextCommand}">
                 <FontIcon Glyph="&#xF8AD;" />
             </Button>
 
             <ToggleButton x:Name="ShuffleButton"
                           IsChecked="{Binding IsShuffled}" 
-                          Click="ShuffleButton_Click">
+                          Command="{Binding ToggleShuffleCommand}">
                 <FontIcon Glyph="&#xE8B1;" />
             </ToggleButton>
 
             <ToggleButton x:Name="LoopButton"
                           IsChecked="{Binding IsLooped}"
-                          Click="LoopButton_Click">
+                          Command="{Binding ToggleLoopCommand}">
                 <FontIcon Glyph="&#xE8EE;" />
             </ToggleButton>
         </StackPanel>
@@ -114,7 +114,7 @@
                                         </StackPanel>
 
                                         <Button x:Name="LikeSongButton"
-                                                Click="LikeSongButton_Click"
+                                                Command="{x:Bind ToggleFavouriteCommand}"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Center">
                                             <FontIcon Glyph="&#xE734;" />
